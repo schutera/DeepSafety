@@ -24,8 +24,8 @@ During the lecture you will be tasked with providing a safety strategy for your 
 To make things spicy, you will be asked to validate your model on data that you will not know beforehand.
 Your goal is to prepare yourself for these data ingests. 
 Preparing includes acting and documenting on:
-- An elaborate validation pipeline for your model, with the goal to precisely describe the functionality of your model
-- An elaborate safety concept, including roles and processes on hazzard and risk assessment 
+- An elaborate validation pipeline for your model, with the goal to precisely describe the risks, performance and functionality of your model
+- An elaborate safety concept, including roles and processes on safety strategy, safety management, safety engineering 
 - At some point you will need to implement and decide on a safety architecture
 
 
