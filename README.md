@@ -21,12 +21,14 @@ Once you trained the initial model, you are free to extend your dataset, the mod
 
 ## Applied Deep Learning meets Safety
 During the lecture you will be tasked with providing a safety strategy for your deep learning application.
-To make things spicy, you will be asked to validate your model on data that you will not know beforehand.
+To make things spicy, you will be asked to validate your system on data that you will not know beforehand.
 Your goal is to prepare yourself for these data ingests. 
 Preparing includes acting and documenting on:
-- An elaborate validation pipeline for your model, with the goal to precisely describe the risks, performance and functionality of your model
+- An elaborate validation pipeline for your system, with the goal to precisely describe the risks, performance and functionality of your system
 - An elaborate safety concept, including roles and processes on safety strategy, safety management, safety engineering 
 - At some point you will need to implement and decide on a safety architecture
+
+Obs! How I use the term system, and not neural network or model. 
 
 ## FAQ
 So far so good.
