@@ -6,18 +6,14 @@
 # The data to train and validate the model can be downloaded here:
 # https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign/download
 
-# The code is part of the applied deep learning lecture at Ravensburg-Weingarten University
+# The code is part of the applied deep learning lecture at RWU
 # Contact: Mark.Schutera@gmail.com or mark.schutera@kit.edu
-
 
 
 # //////////////////////////////////////// Setup
 
 import numpy as np
 import time
-
-import PIL.Image as Image
-import matplotlib.pylab as plt
 
 import tensorflow as tf
 import tensorflow_hub as hub  # conda install -c conda-forge tensorflow-hub
@@ -27,15 +23,13 @@ import datetime
 from tensorboard import program
 
 
-
 # //////////////////////////////////////// Download Backbone in headless mode
 # Meaning these are pure feature extractors
 
 mobilenet_v2 = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4"
 inception_v3 = "https://tfhub.dev/google/tf2-preview/inception_v3/feature_vector/4"
 
-feature_extractor_model = mobilenet_v2 #@param ["mobilenet_v2", "inception_v3"] choose wisely
-
+feature_extractor_model = mobilenet_v2  # @param ["mobilenet_v2", "inception_v3"] choose wisely
 
 
 # //////////////////////////////////////// Data data data
@@ -67,20 +61,19 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
   batch_size=batch_size
 )
 
-# check whether all your classes have been loaded correctly @class_names [xxxxxx]
+# check whether all your classes have been loaded correctly @class_names ['0' '1' '10' '11' '12']
 class_names = np.array(train_ds.class_names)
 print(class_names)
 
 # Preprocessing as the tensorflow hub models expect images as float inputs [0,1]
 normalization_layer = tf.keras.layers.Rescaling(1./255)
-train_ds = train_ds.map(lambda x, y: (normalization_layer(x), y)) # Where x—images, y—labels.
+train_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—images, y—labels.
 val_ds = val_ds.map(lambda x, y: (normalization_layer(x), y))     # Where x—images, y—labels.
 
 # Then we set up prefetching will just smooth your data loader pipeline
 AUTOTUNE = tf.data.AUTOTUNE
 train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
-
 
 
 # //////////////////////////////////////// Preparing the model or heating up the coffee machine
@@ -106,10 +99,12 @@ model = tf.keras.Sequential([
 # //////////////////////////////////////// Training or wild hand waving on caffeine
 
 # This starts tensorboard to you can check how your training is progressing
+# Helping you with tracking your training, resort to tensorboard, which can be accessed via the browser
 tracking_address = "./logs"
 tb = program.TensorBoard()
 tb.configure(argv=[None, '--logdir', tracking_address])
 url = tb.launch()
+print(f"Tensorflow listening on {url}")
 
 # This is stuff you are free to play around with
 model.compile(
@@ -121,9 +116,9 @@ model.compile(
 log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(
     log_dir=log_dir,
-    histogram_freq=1) # Enable histogram computation for every epoch.
+    histogram_freq=1)  # Enable histogram computation for every epoch.
 
-NUM_EPOCHS = 10
+NUM_EPOCHS = 1  # This is probably not enough
 
 history = model.fit(train_ds,
                     validation_data=val_ds,
@@ -134,9 +129,5 @@ history = model.fit(train_ds,
 # and which information you will need to link with the model when doing so
 t = time.time()
 
-export_path = "/tmp/saved_models/{}".format(int(t))
+export_path = "./tmp/saved_models/{}".format(int(t))
 model.save(export_path)
-
-
-
-# //////////////////////////////////////// SETUP
