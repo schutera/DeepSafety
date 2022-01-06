@@ -28,6 +28,9 @@ Preparing includes acting and documenting on:
 - An elaborate safety concept, including roles and processes on safety strategy, safety management, safety engineering 
 - At some point you will need to implement and decide on a safety architecture
 
+## FAQ
+So far so good.
+
 
 ### Contact
 mark.schutera@gmail.com\
