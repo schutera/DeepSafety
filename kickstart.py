@@ -66,7 +66,7 @@ class_names = np.array(train_ds.class_names)
 print(class_names)
 
 # Preprocessing as the tensorflow hub models expect images as float inputs [0,1]
-normalization_layer = tf.keras.layers.Rescaling(1./255)
+normalization_layer = tf.ker.layers.Rescaling(1./255)
 train_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—images, y—labels.
 val_ds = val_ds.map(lambda x, y: (normalization_layer(x), y))     # Where x—images, y—labels.
 
@@ -118,7 +118,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
     log_dir=log_dir,
     histogram_freq=1)  # Enable histogram computation for every epoch.
 
-NUM_EPOCHS = 1  # This is probably not enough
+NUM_EPOCHS = 50  # This is probably not enough
 
 history = model.fit(train_ds,
                     validation_data=val_ds,
