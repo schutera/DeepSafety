@@ -29,7 +29,7 @@ from tensorboard import program
 mobilenet_v2 = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4"
 inception_v3 = "https://tfhub.dev/google/tf2-preview/inception_v3/feature_vector/4"
 
-feature_extractor_model = mobilenet_v2  # @param ["mobilenet_v2", "inception_v3"] choose wisely
+feature_extractor_model = inception_v3  # @param ["mobilenet_v2", "inception_v3"] choose wisely
 
 
 # //////////////////////////////////////// Data data data
@@ -66,7 +66,7 @@ class_names = np.array(train_ds.class_names)
 print(class_names)
 
 # Preprocessing as the tensorflow hub models expect images as float inputs [0,1]
-normalization_layer = tf.ker.layers.Rescaling(1./255)
+normalization_layer = tf.keras.layers.Rescaling(1./255)
 train_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—images, y—labels.
 val_ds = val_ds.map(lambda x, y: (normalization_layer(x), y))     # Where x—images, y—labels.
 
