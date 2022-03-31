@@ -36,7 +36,7 @@ test_labels = np.concatenate([y for x, y in test_ds], axis=0)
 # Remember that we had some preprocessing before our training this needs to be repeated here
 # Preprocessing as the tensorflow hub models expect images as float inputs [0,1]
 normalization_layer = tf.keras.layers.Rescaling(1./255)
-train_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—images, y—labels.
+test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—images, y—labels.
 
 
 # //////////////////////////////////////// Inference.
