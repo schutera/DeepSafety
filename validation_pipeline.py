@@ -23,7 +23,8 @@ test_ds = tf.keras.utils.image_dataset_from_directory(
   data_root,
   seed=123,
   image_size=(img_height, img_width),
-  batch_size=batch_size
+  batch_size=batch_size,
+  shuffle=False
 )
 
 # Get information on your classes
