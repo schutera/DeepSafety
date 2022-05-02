@@ -1,0 +1,6 @@
+This is not the data you have been looking for. 
+The final batch is for you to design and engineer.
+
+What validation is your model missing? Which data has been neglected? 
+How do you design a proper validation set based on everything you have been working on.
+Including your current training, validation and test data. Your current approaches to testing, training and the underlying processes.
