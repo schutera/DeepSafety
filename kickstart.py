@@ -84,7 +84,7 @@ feature_extractor_layer = hub.KerasLayer(
     input_shape=(img_height, img_width, 3),
     trainable=False)
 
-# attach the head fitting the current traffic sign classification task
+# attach the head fitting the current traffic sign classificateion task
 # the head is a pure fully connected output layer
 num_classes = len(class_names)
 
@@ -118,7 +118,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
     log_dir=log_dir,
     histogram_freq=1)  # Enable histogram computation for every epoch.
 
-NUM_EPOCHS = 50  # This is probably not enough
+NUM_EPOCHS = 1  # This is probably not enough
 
 history = model.fit(train_ds,
                     validation_data=val_ds,
