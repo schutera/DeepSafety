@@ -33,6 +33,9 @@ print('Classes available: ', class_names)
 
 # get the ground truth labels
 test_labels = np.concatenate([y for x, y in test_ds], axis=0)
+# Mapping test labels to the folder names instead of the index
+for i in range(0, len(test_labels)):
+    test_labels[i]=int(class_names[test_labels[i]])
 
 # Remember that we had some preprocessing before our training this needs to be repeated here
 # Preprocessing as the tensorflow hub models expect images as float inputs [0,1]
