@@ -72,8 +72,8 @@ val_ds = val_ds.map(lambda x, y: (normalization_layer(x), y))     # Where x—im
 
 # Then we set up prefetching will just smooth your data loader pipeline
 AUTOTUNE = tf.data.AUTOTUNE
-train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
-val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+train_ds = train_ds.prefetch(buffer_size=AUTOTUNE)
+val_ds = val_ds.prefetch(buffer_size=AUTOTUNE)
 
 
 # //////////////////////////////////////// Preparing the model or heating up the coffee machine
@@ -118,7 +118,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
     log_dir=log_dir,
     histogram_freq=1)  # Enable histogram computation for every epoch.
 
-NUM_EPOCHS = 50  # This is probably not enough
+NUM_EPOCHS = 1  # This is probably not enough
 
 history = model.fit(train_ds,
                     validation_data=val_ds,
