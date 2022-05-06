@@ -4,7 +4,7 @@
 
 import numpy as np
 import tensorflow as tf
-
+from confidence import *
 
 # //////////////////////////////////////// Load model
 model_name = "1650909259"
@@ -44,8 +44,9 @@ test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—ima
 
 
 # //////////////////////////////////////// Inference.
-predictions = model.predict(test_ds)
-predictions = np.argmax(predictions, axis=1)
+output = model.predict(test_ds)
+confidence = np.max(output, axis=1)
+predictions = np.argmax(output, axis=1)
 print('Predictions: ', predictions)
 print('Ground truth: ', test_labels)
 
@@ -58,6 +59,9 @@ def accuracy(predictions, test_labels):
     return metric.result().numpy()
 
 print('Accuracy: ', accuracy(predictions, test_labels))
+
+print('False confidence: ', np.average(has_false_confidence(output, test_labels)))
+print('Low confidence: ', np.average(has_too_low_confidence(output, test_labels, 0.9)))
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
