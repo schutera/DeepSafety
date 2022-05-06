@@ -1,4 +1,6 @@
 numpy
+matplotlib
+pandas
 tensorboard==2.6.0
 tensorboard-data-server==0.6.0
 tensorboard-plugin-wit==1.8.1

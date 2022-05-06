@@ -4,6 +4,7 @@
 
 import numpy as np
 import tensorflow as tf
+from accuracy import *
 from confidence import *
 
 # //////////////////////////////////////// Load model
@@ -62,6 +63,9 @@ print('Accuracy: ', accuracy(predictions, test_labels))
 
 print('False confidence: ', np.average(has_false_confidence(output, test_labels)))
 print('Low confidence: ', np.average(has_too_low_confidence(output, test_labels, 0.9)))
+
+print("individual accuracies:")
+print(accuracies(predictions, test_labels, model_name))
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
