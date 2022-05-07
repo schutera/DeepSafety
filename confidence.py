@@ -1,6 +1,7 @@
 import numpy as np
 
-def has_high_confidence(model_output, thres = 0.75):
+
+def has_high_confidence(model_output, thres=0.75):
     """Check if model has high confidence in its output as the classifier should
     return only one definite class.
 
@@ -25,15 +26,16 @@ def has_high_confidence(model_output, thres = 0.75):
     max = np.repeat(np.max(model_output, axis=1), repetitions, axis=0).reshape(shape)
     diff = max - min
 
-    normalized = (model_output - min) / diff # division by 0 results in inf, no crash
+    normalized = (model_output - min) / diff  # division by 0 results in inf, no crash
 
     # sort the results to get 2nd highest value
-    second = np.sort(normalized, axis=1)[:,-2]
+    second = np.sort(normalized, axis=1)[:, -2]
 
     # compare to threshold
     return second < thres
 
-def has_false_confidence(model_output, ground_truth, thres = 0.75):
+
+def has_false_confidence(model_output, ground_truth, thres=0.75):
     """Check if model has high confidence in its output and its prediction
     is wrong.
 
@@ -53,7 +55,8 @@ def has_false_confidence(model_output, ground_truth, thres = 0.75):
 
     return (prediction != ground_truth) & high_conf
 
-def has_too_low_confidence(model_output, ground_truth, thres = 0.75):
+
+def has_missing_confidence(model_output, ground_truth, thres=0.75):
     """Check if model has low confidence in its output even though its
     prediction is correct.
 
