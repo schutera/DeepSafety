@@ -46,7 +46,6 @@ test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—ima
 
 # //////////////////////////////////////// Inference.
 output = model.predict(test_ds)
-confidence = np.max(output, axis=1)
 predictions = np.argmax(output, axis=1)
 print('Predictions: ', predictions)
 print('Ground truth: ', test_labels)
