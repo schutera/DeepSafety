@@ -7,6 +7,9 @@ import tensorflow as tf
 from per_class_metrics import *
 from confidence import *
 
+tf.config.threading.set_inter_op_parallelism_threads(1)
+tf.config.threading.set_intra_op_parallelism_threads(1)
+
 # //////////////////////////////////////// Load model
 model_name = "1650909259"
 import_path = "./tmp/saved_models/{}".format(int(model_name))
@@ -15,7 +18,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_0/"
+data_root = "./safetyBatches/Batch_5/"
 batch_size = 32
 img_height = 224
 img_width = 224
