@@ -7,9 +7,6 @@ import tensorflow as tf
 from per_class_metrics import *
 from confidence import *
 
-tf.config.threading.set_inter_op_parallelism_threads(1)
-tf.config.threading.set_intra_op_parallelism_threads(1)
-
 # //////////////////////////////////////// Load model
 model_name = "1650909259"
 import_path = "./tmp/saved_models/{}".format(int(model_name))
@@ -36,16 +33,18 @@ class_names = np.array(test_ds.class_names)
 print('Classes available: ', class_names)
 
 # get the ground truth labels
-test_labels = np.concatenate([y for x, y in test_ds], axis=0)
+test_labels = np.array([]).astype(int)
+for t in test_ds:
+  test_labels = np.concatenate([test_labels, t[1]])
+
 # Mapping test labels to the folder names instead of the index
-for i in range(0, len(test_labels)):
-    test_labels[i]=int(class_names[test_labels[i]])
+for i, test_label in enumerate(test_labels):
+    test_labels[i] = int(class_names[test_label])
 
 # Remember that we had some preprocessing before our training this needs to be repeated here
 # Preprocessing as the tensorflow hub models expect images as float inputs [0,1]
 normalization_layer = tf.keras.layers.Rescaling(1./255)
 test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—images, y—labels.
-
 
 # //////////////////////////////////////// Inference.
 output = model.predict(test_ds)
