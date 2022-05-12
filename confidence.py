@@ -15,7 +15,7 @@ def has_high_confidence(model_output, thres=0.75):
     :type model_output: 2D-array
     :param thres: the threshold between 0 and 1, defaults to 0.75
     :type thres: float, optional
-    :return: boolean if the inputs result in high confidence outputs
+    :return: True if the inputs result in high confidence outputs
     :rtype: 1D-array
     """
 
@@ -48,7 +48,7 @@ def has_false_confidence(model_output, ground_truth, thres=0.75):
     :type ground_truth: 1D-array
     :param thres: the threshold between 0 and 1, defaults to 0.75
     :type thres: float, optional
-    :return: true if prediction is wrong and has high confidence
+    :return: True if prediction is wrong and has high confidence
     :rtype: 1D-array
     """
 
@@ -69,7 +69,7 @@ def has_missing_confidence(model_output, ground_truth, thres=0.75):
     :type ground_truth: 1D-array
     :param thres: the threshold between 0 and 1, defaults to 0.75
     :type thres: float, optional
-    :return: true if prediction is wrong and has high confidence
+    :return: True if prediction is wrong and has high confidence
     :rtype: 1D-array
     """
 

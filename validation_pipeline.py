@@ -65,7 +65,7 @@ print('Accuracy: ', accuracy(predictions, test_labels))
 print('False confidence: ', np.average(has_false_confidence(output, test_labels)))
 print('Low confidence: ', np.average(has_missing_confidence(output, test_labels, 0.9)))
 
-print("individual accuracies:")
+print("Individual metrics:")
 print(per_class_metrics(output, predictions, test_labels, model_name, mc_thres=0.9))
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
