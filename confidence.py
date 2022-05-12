@@ -28,6 +28,9 @@ def has_high_confidence(model_output, thres=0.75):
 
     normalized = (model_output - min) / diff  # division by 0 results in inf, no crash
 
+    if len(normalized) < 2:
+        return False
+
     # sort the results to get 2nd highest value
     second = np.sort(normalized, axis=1)[:, -2]
 
