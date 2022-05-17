@@ -6,6 +6,12 @@ def get_confidence(model_output):
     To see if the classification is done with high confidence, we want to look at
     the relative difference between the output class (highest value) and the 2nd
     highest value.
+    All the values are mapped between 0 and 1 according to this formula:
+
+    normalized = (value - min(values)) / (max(values) - min(values))
+
+    The confidence is the distance of the second highest normalized value to the highest
+    normalized value, which is always 1.
 
     :param model_output: the whole output of the model for all inputs
     :type model_output: 2D-array
@@ -37,11 +43,8 @@ def has_high_confidence(model_output, thres=0.25):
     """Check if model has high confidence in its output as the classifier should
     return only one definite class.
 
-    To see if the classification is done with high confidence, we want to look at
-    the relative difference between the output class (highest value) and the 2nd
-    highest value.
-    If the 2nd highest value is lower than threshold * (highest - lowest), it will
-    be considered high confidence.
+    If the confidence it higher than the threshold, it will be considered high
+    confidence.
 
     :param model_output: the whole output of the model for all inputs
     :type model_output: 2D-array
