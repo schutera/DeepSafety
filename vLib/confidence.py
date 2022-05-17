@@ -1,21 +1,15 @@
 import numpy as np
 
-
-def has_high_confidence(model_output, thres=0.75):
-    """Check if model has high confidence in its output as the classifier should
-    return only one definite class.
+def get_confidence(model_output):
+    """Get the confidence value the model has in its output (higher is more confident).
 
     To see if the classification is done with high confidence, we want to look at
     the relative difference between the output class (highest value) and the 2nd
     highest value.
-    If the 2nd highest value is lower than threshold * (highest - lowest), it will
-    be considered high confidence.
 
     :param model_output: the whole output of the model for all inputs
     :type model_output: 2D-array
-    :param thres: the threshold between 0 and 1, defaults to 0.75
-    :type thres: float, optional
-    :return: True if the inputs result in high confidence outputs
+    :return: confidence values
     :rtype: 1D-array
     """
 
@@ -28,17 +22,40 @@ def has_high_confidence(model_output, thres=0.75):
 
     normalized = (model_output - min) / diff  # division by 0 results in inf, no crash
 
-    if len(normalized) < 2:
-        return False
+    shape = normalized.shape
+    if len(shape) != 2:
+        print("Wrong shape!")
+        return 0
+    if shape[1] < 2:
+        print("Accuracy is not defined for models with less than 2 output classes!")
+        return np.zeros(shape[1])
 
     # sort the results to get 2nd highest value
-    second = np.sort(normalized, axis=1)[:, -2]
+    return 1 - np.sort(normalized, axis=1)[:, -2]
+
+def has_high_confidence(model_output, thres=0.25):
+    """Check if model has high confidence in its output as the classifier should
+    return only one definite class.
+
+    To see if the classification is done with high confidence, we want to look at
+    the relative difference between the output class (highest value) and the 2nd
+    highest value.
+    If the 2nd highest value is lower than threshold * (highest - lowest), it will
+    be considered high confidence.
+
+    :param model_output: the whole output of the model for all inputs
+    :type model_output: 2D-array
+    :param thres: the threshold between 0 and 1, defaults to 0.25
+    :type thres: float, optional
+    :return: True if the inputs result in high confidence outputs
+    :rtype: 1D-array
+    """
 
     # compare to threshold
-    return second < thres
+    return get_confidence(model_output) > thres
 
 
-def has_false_confidence(model_output, ground_truth, thres=0.75):
+def has_false_confidence(model_output, ground_truth, thres=0.25):
     """Check if model has high confidence in its output and its prediction
     is wrong.
 
@@ -46,7 +63,7 @@ def has_false_confidence(model_output, ground_truth, thres=0.75):
     :type system_output: 2D-array
     :param ground_truth: the correct output
     :type ground_truth: 1D-array
-    :param thres: the threshold between 0 and 1, defaults to 0.75
+    :param thres: the threshold between 0 and 1, defaults to 0.25
     :type thres: float, optional
     :return: True if prediction is wrong and has high confidence
     :rtype: 1D-array
@@ -59,7 +76,7 @@ def has_false_confidence(model_output, ground_truth, thres=0.75):
     return (prediction != ground_truth) & high_conf
 
 
-def has_missing_confidence(model_output, ground_truth, thres=0.75):
+def has_missing_confidence(model_output, ground_truth, thres=0.25):
     """Check if model has low confidence in its output even though its
     prediction is correct.
 
@@ -67,7 +84,7 @@ def has_missing_confidence(model_output, ground_truth, thres=0.75):
     :type system_output: 2D-array
     :param ground_truth: the correct output
     :type ground_truth: 1D-array
-    :param thres: the threshold between 0 and 1, defaults to 0.75
+    :param thres: the threshold between 0 and 1, defaults to 0.25
     :type thres: float, optional
     :return: True if prediction is wrong and has high confidence
     :rtype: 1D-array

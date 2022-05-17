@@ -4,8 +4,8 @@
 
 import numpy as np
 import tensorflow as tf
-from per_class_metrics import *
-from confidence import *
+from vLib.per_class_metrics import *
+from vLib.confidence import *
 
 # //////////////////////////////////////// Load model
 model_name = "1650909259"
@@ -15,7 +15,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_5/"
+data_root = "./safetyBatches/Batch_0/"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -63,10 +63,10 @@ def accuracy(predictions, test_labels):
 print('Accuracy: ', accuracy(predictions, test_labels))
 
 print('False confidence: ', np.average(has_false_confidence(output, test_labels)))
-print('Low confidence: ', np.average(has_missing_confidence(output, test_labels, 0.9)))
+print('Low confidence: ', np.average(has_missing_confidence(output, test_labels, 0.1)))
 
 print("Individual metrics:")
-print(per_class_metrics(output, predictions, test_labels, model_name, mc_thres=0.9))
+print(per_class_metrics(output, predictions, test_labels, model_name, mc_thres=0.1))
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.

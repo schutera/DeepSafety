@@ -10,3 +10,4 @@
 /safetyBatches/Batch_5
 /safetyBatches/Batch_6
 *.png
+__pycache__/

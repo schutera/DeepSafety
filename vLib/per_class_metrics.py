@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
-from confidence import *
+from vLib.confidence import *
 
 
 def per_class_metrics(
@@ -9,7 +9,7 @@ def per_class_metrics(
     predictions,
     test_labels,
     model_name=None,
-    thres=0.75,
+    thres=0.25,
     fc_thres=None,
     mc_thres=None,
 ):
@@ -23,7 +23,7 @@ def per_class_metrics(
     :type test_labels: 1D-array
     :param model_name: the name of the model, defaults to None
     :type model_name: str, optional
-    :param thres: the thresholds used for confidence, defaults to 0.75
+    :param thres: the thresholds used for confidence, defaults to 0.25
     :type thres: float, optional
     :param fc_thres: the threshold for false confidence, defaults to None
     :type fc_thres: float, optional
