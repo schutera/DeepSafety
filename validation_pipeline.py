@@ -4,6 +4,7 @@
 
 import numpy as np
 import tensorflow as tf
+import translate_gt_and_predicts as tr
 
 
 # //////////////////////////////////////// Load model
@@ -14,7 +15,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_0/"
+data_root = "./safetyBatches/Batch_3/"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -26,6 +27,11 @@ test_ds = tf.keras.utils.image_dataset_from_directory(
   batch_size=batch_size,
   shuffle=False
 )
+
+# Testdata mapping vector. selfmade
+testdata_mapping = np.array([0, 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3,
+                             30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 5, 6, 7, 8, 9])
+
 
 # Get information on your classes
 class_names = np.array(test_ds.class_names)
@@ -39,22 +45,30 @@ test_labels = np.concatenate([y for x, y in test_ds], axis=0)
 normalization_layer = tf.keras.layers.Rescaling(1./255)
 test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—images, y—labels.
 
-
 # //////////////////////////////////////// Inference.
 predictions = model.predict(test_ds)
 predictions = np.argmax(predictions, axis=1)
-print('Predictions: ', predictions)
-print('Ground truth: ', test_labels)
 
+# ///////////////////////////////////////// Translation. selfmade
+
+translated_gt = tr.translate_gt_and_predicts(class_names, test_labels)
+translated_predicts = tr.translate_gt_and_predicts(testdata_mapping, predictions)
+
+#print('Predictions: ', predictions)
+#print('Ground truth: ', test_labels)
+
+# Translated output. selfmade
+print('Translated Predictions ', translated_predicts)
+print('Translated Ground truth ', translated_gt)
 
 # //////////////////////////////////////// Let the validation begin
 # Probably you will want to at least migrate these to another script or class when this grows..
-def accuracy(predictions, test_labels):
+def accuracy(translated_predicts, translated_gt):
     metric = tf.keras.metrics.Accuracy()
-    metric.update_state(predictions, test_labels)
+    metric.update_state(translated_predicts, translated_gt)
     return metric.result().numpy()
 
-print('Accuracy: ', accuracy(predictions, test_labels))
+print('Accuracy: ', accuracy(translated_predicts, translated_gt))
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
