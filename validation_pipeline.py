@@ -4,8 +4,7 @@
 
 import numpy as np
 import tensorflow as tf
-from vLib.per_class_metrics import *
-from vLib.confidence import *
+import metrix as mx
 
 # //////////////////////////////////////// Load model
 model_name = "1650909259"
@@ -15,7 +14,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_0/"
+data_root = "./safetyBatches/Batch_5/"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -48,25 +47,18 @@ test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—ima
 
 # //////////////////////////////////////// Inference.
 output = model.predict(test_ds)
-predictions = np.argmax(output, axis=1)
-print('Predictions: ', predictions)
-print('Ground truth: ', test_labels)
 
+metrics = mx.Metrics(output, test_labels)
 
-# //////////////////////////////////////// Let the validation begin
-# Probably you will want to at least migrate these to another script or class when this grows..
-def accuracy(predictions, test_labels):
-    metric = tf.keras.metrics.Accuracy()
-    metric.update_state(predictions, test_labels)
-    return metric.result().numpy()
+metrics.plot_per_class_mean(
+  mx.Metric.ACCURACY,
+  mx.Metric.FALSE_CONFIDENCE,
+  mx.Metric.MISSING_CONFIDENCE,
+  mc_thres=0.1,
+  file_name="chart.pdf"
+)
 
-print('Accuracy: ', accuracy(predictions, test_labels))
-
-print('False confidence: ', np.average(has_false_confidence(output, test_labels)))
-print('Low confidence: ', np.average(has_missing_confidence(output, test_labels, 0.1)))
-
-print("Individual metrics:")
-print(per_class_metrics(output, predictions, test_labels, model_name, mc_thres=0.1))
+metrics.print_report()
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.

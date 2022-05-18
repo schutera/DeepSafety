@@ -10,4 +10,6 @@
 /safetyBatches/Batch_5
 /safetyBatches/Batch_6
 *.png
+*.pdf
+!Oranges.pdf
 __pycache__/
