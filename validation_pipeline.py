@@ -52,6 +52,7 @@ metrics = mx.Metrics(output, test_labels)
 
 metrics.plot_per_class_mean(
   mx.Metric.ACCURACY,
+  mx.Metric.CONFIDENCE,
   mx.Metric.FALSE_CONFIDENCE,
   mx.Metric.MISSING_CONFIDENCE,
   mc_thres=0.1,
