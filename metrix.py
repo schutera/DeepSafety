@@ -367,6 +367,7 @@ class Metrics:
 
         print("")
 
+        # check accuracies for each class
         accuracies = self.per_class_mean(Metric.ACCURACY)
         count = 0
         for index, row in accuracies.iterrows():
@@ -389,12 +390,16 @@ class Metrics:
 
         print("")
 
+        # check false confidence for each class
         fcs = self.per_class_mean(Metric.FALSE_CONFIDENCE)
         min = fcs.min()[0]
         median = fcs.median()[0]
         count = 0
         for index, row in fcs.iterrows():
             fc = row[0]
+            # compare the current false confidence (fc) to the median
+            # info if current fc lies further apart than minimum fc
+            # in absolute distance and current fc must also be greater
             if fc - median > median - min:
                 count += 1
                 print(
@@ -404,8 +409,14 @@ class Metrics:
                 )
         if count > 0:
             print(
-                "These classes' false confidence deviates more from the median then the one with the least false confidence."
+                "{} false confidence deviates more from the median then the one with the least false confidence.".format(
+                    "This class's" if count == 1 else "These classes'"
+                )
             )
-            print("Check if these classes are very similar to other classes!")
+            print(
+                "Check if {} very similar to other classes!".format(
+                    "this class is" if count == 1 else "these classes are"
+                )
+            )
 
         print("")

@@ -50,6 +50,10 @@ output = model.predict(test_ds)
 
 metrics = mx.Metrics(output, test_labels)
 
+print("Accuracy: {}".format(metrics.overall_mean(mx.Metric.ACCURACY)[0]))
+
+print(metrics.per_class_mean(mx.Metric.FALSE_CONFIDENCE, mx.Metric.MISSING_CONFIDENCE, thres=0.2))
+
 metrics.plot_per_class_mean(
   mx.Metric.ACCURACY,
   mx.Metric.CONFIDENCE,
@@ -59,7 +63,7 @@ metrics.plot_per_class_mean(
   file_name="chart.pdf"
 )
 
-metrics.print_report()
+metrics.print_report(safe_accuracy=0.98)
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
