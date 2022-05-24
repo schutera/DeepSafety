@@ -9,6 +9,8 @@
 # The code is part of the applied deep learning lecture at RWU
 # Contact: Mark.Schutera@gmail.com or mark.schutera@kit.edu
 
+#Test
+
 
 # //////////////////////////////////////// Setup
 
