@@ -4,10 +4,11 @@
 
 import numpy as np
 import tensorflow as tf
+from prediction_monitoring import monitor_predictions
 
 
 # //////////////////////////////////////// Load model
-model_name = "1641502791"
+model_name = "1650709603"
 import_path = "./tmp/saved_models/{}".format(int(model_name))
 model = tf.keras.models.load_model(import_path)
 
@@ -18,6 +19,7 @@ data_root = "./safetyBatches/Batch_0/"
 batch_size = 32
 img_height = 224
 img_width = 224
+
 
 test_ds = tf.keras.utils.image_dataset_from_directory(
   data_root,
@@ -41,10 +43,12 @@ test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—ima
 
 
 # //////////////////////////////////////// Inference.
-predictions = model.predict(test_ds)
-predictions = np.argmax(predictions, axis=1)
+predictions_array = model.predict(test_ds)
+print("Predictions without argmax: ", predictions_array)
+predictions = np.argmax(predictions_array, axis=1)
 print('Predictions: ', predictions)
 print('Ground truth: ', test_labels)
+monitor_predictions(predictions_array, predictions)
 
 
 # //////////////////////////////////////// Let the validation begin
