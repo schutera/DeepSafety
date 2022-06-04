@@ -14,22 +14,29 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_0/"
+val_data_root = "./safetyBatches/Batch_0/"
+train_data_root = "./data/Train/"
+
 batch_size = 32
 img_height = 224
 img_width = 224
 
+train_ds = tf.keras.utils.image_dataset_from_directory(train_data_root)
+# Get information on your train classes
+train_class_names = np.array(train_ds.class_names)
+print('Train Classes available: ', train_class_names)
+
 test_ds = tf.keras.utils.image_dataset_from_directory(
-  data_root,
+  val_data_root,
   seed=123,
   image_size=(img_height, img_width),
   batch_size=batch_size,
   shuffle=False
 )
 
-# Get information on your classes
+# Get information on your val classes
 class_names = np.array(test_ds.class_names)
-print('Classes available: ', class_names)
+print('Val Classes available: ', class_names)
 
 # get the ground truth labels
 test_labels = np.concatenate([y for x, y in test_ds], axis=0)
@@ -46,6 +53,11 @@ test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—ima
 # //////////////////////////////////////// Inference.
 predictions = model.predict(test_ds)
 predictions = np.argmax(predictions, axis=1)
+
+# Mapping the prediction class id based on the folder names
+for i in range(0, len(predictions)):
+    predictions[i]=int(train_class_names[predictions[i]])
+
 print('Predictions: ', predictions)
 print('Ground truth: ', test_labels)
 
