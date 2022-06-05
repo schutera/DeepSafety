@@ -6,6 +6,7 @@ import numpy as np
 import tensorflow as tf
 import correct_ground_truth as gr
 import get_small_images as gsi
+import calc_prediction_probability as prob
 
 # //////////////////////////////////////// Load model
 
@@ -16,7 +17,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_0/"
+data_root = "./safetyBatches/Batch_1/"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -52,7 +53,6 @@ predictions = np.argmax(predictions, axis=1)
 
 test_data = gr.correct_ground_truth(predictions, test_data)
 
-print("information:", softmax)
 print('Predictions: ', test_data)
 print('Ground truth: ', test_labels)
 print('Corrected Ground truth: ', test_labels_n)
@@ -67,7 +67,8 @@ def accuracy(predictions, test_labels):
 
 print('Accuracy: ', accuracy(test_data, test_labels_n))
 
-gsi.get_small_images(softmax)
+gsi.get_small_images()
+prob.calc_prediction_probability(softmax)
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.

@@ -1,9 +1,8 @@
 import os
 import cv2
 
-def get_small_images(softmax):
+def get_small_images():
     batch_path = "./safetyBatches/Batch_0"
-    image_sizes = []
     threshold = (30, 30, 3)
     critical_images = []
     for batch, directories, images in os.walk(batch_path):
