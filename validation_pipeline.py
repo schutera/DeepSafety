@@ -67,8 +67,9 @@ def accuracy(predictions, test_labels):
 
 print('Accuracy: ', accuracy(test_data, test_labels_n))
 
-gsi.get_small_images()
-prob.calc_prediction_probability(softmax)
+probabilities = prob.calc_prediction_probability(softmax)
+gsi.get_small_images(data_root, probabilities)
+
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.

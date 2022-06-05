@@ -1,6 +1,7 @@
-import os
+l=[]
+for i in range(2):
+	l.append([])
 
-path_to_check = os.listdir("./safetyBatches/Batch_0/")
-for x in path_to_check:
-    subdir = #in jedes Verzeichnis springen und die enthaltenen Dateien zählen
-    print(len(subdir))
+l[0].append("test1")
+l[1].append("test2")
+print(l)
