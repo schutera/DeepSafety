@@ -5,7 +5,7 @@
 import numpy as np
 import tensorflow as tf
 import correct_ground_truth as gr
-#import get_small_images as gsi
+import get_small_images as gsi
 
 # //////////////////////////////////////// Load model
 
@@ -47,13 +47,12 @@ test_labels_n = gr.correct_ground_truth(test_labels, class_names)
 
 # //////////////////////////////////////// Inference.
 predictions = model.predict(test_ds)
-#print("information:", predictions)
+softmax = tf.nn.softmax(predictions,-1)
 predictions = np.argmax(predictions, axis=1)
 
 test_data = gr.correct_ground_truth(predictions, test_data)
 
-#information = tf.nn.softmax(predictions[0])
-#print("information:", information)
+print("information:", softmax)
 print('Predictions: ', test_data)
 print('Ground truth: ', test_labels)
 print('Corrected Ground truth: ', test_labels_n)
@@ -68,7 +67,7 @@ def accuracy(predictions, test_labels):
 
 print('Accuracy: ', accuracy(test_data, test_labels_n))
 
-#gsi.get_small_images()
+gsi.get_small_images(softmax)
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
