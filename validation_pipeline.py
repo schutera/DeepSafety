@@ -4,6 +4,7 @@
 
 import numpy as np
 import tensorflow as tf
+import validation
 
 
 # //////////////////////////////////////// Load model
@@ -45,7 +46,7 @@ predictions = model.predict(test_ds)
 predictions = np.argmax(predictions, axis=1)
 print('Predictions: ', predictions)
 print('Ground truth: ', test_labels)
-
+validation.func1()
 
 # //////////////////////////////////////// Let the validation begin
 # Probably you will want to at least migrate these to another script or class when this grows..
