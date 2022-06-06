@@ -1,4 +1,5 @@
+import validation_pipeline
 def func1():
-    print("Es läuft lel")
+    Test_LEn = len(test_labels)
 
     

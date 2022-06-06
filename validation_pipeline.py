@@ -2,9 +2,10 @@
 
 # //////////////////////////////////////// Setup
 
+from opcode import haslocal
 import numpy as np
 import tensorflow as tf
-import validation
+#import validation
 
 
 # //////////////////////////////////////// Load model
@@ -46,7 +47,9 @@ predictions = model.predict(test_ds)
 predictions = np.argmax(predictions, axis=1)
 print('Predictions: ', predictions)
 print('Ground truth: ', test_labels)
-validation.func1()
+
+
+
 
 # //////////////////////////////////////// Let the validation begin
 # Probably you will want to at least migrate these to another script or class when this grows..
@@ -56,6 +59,23 @@ def accuracy(predictions, test_labels):
     return metric.result().numpy()
 
 print('Accuracy: ', accuracy(predictions, test_labels))
+
+Test_len = len(test_labels)
+searched_class=1
+correct =0
+incorrect=0
+
+for i in range(Test_len):
+  if test_labels[i] == searched_class:
+    if predictions[i] == test_labels[i]:
+      correct+=1
+    else:
+      incorrect+=1
+  
+
+print("Korrekt", correct)
+print("Inkorrekt", incorrect)
+
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
