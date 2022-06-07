@@ -4,7 +4,9 @@
 
 import numpy as np
 import tensorflow as tf
-import translate_gt_and_predicts as tr
+import translate_gt_and_predicts as trl
+import evaluation_expansion as evl
+import pandas as pd
 
 
 # //////////////////////////////////////// Load model
@@ -15,7 +17,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_3/"
+data_root = "./safetyBatches/testbatch/"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -36,6 +38,7 @@ testdata_mapping = np.array([0, 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20
 # Get information on your classes
 class_names = np.array(test_ds.class_names)
 print('Classes available: ', class_names)
+trl.translate_classes(class_names)
 
 # get the ground truth labels
 test_labels = np.concatenate([y for x, y in test_ds], axis=0)
@@ -51,15 +54,21 @@ predictions = np.argmax(predictions, axis=1)
 
 # ///////////////////////////////////////// Translation. selfmade
 
-translated_gt = tr.translate_gt_and_predicts(class_names, test_labels)
-translated_predicts = tr.translate_gt_and_predicts(testdata_mapping, predictions)
+translated_gt = trl.translate_gt_and_predicts(class_names, test_labels)
+translated_predicts = trl.translate_gt_and_predicts(testdata_mapping, predictions)
 
-#print('Predictions: ', predictions)
-#print('Ground truth: ', test_labels)
+# ///////////////////////////////////////// Confusion Matrix (only suitable for classes 0, 1, 2, 3, 4, 5, 7, 8)
+all_cms_data = evl.create_cms(translated_gt, translated_predicts)
+evl.calc_precision(all_cms_data)
+evl.calc_recall(all_cms_data)
+evl.calc_f1(all_cms_data)
+evl.export_data_excel(all_cms_data, translated_gt)
 
-# Translated output. selfmade
-print('Translated Predictions ', translated_predicts)
+
+# Translated output selfmade
 print('Translated Ground truth ', translated_gt)
+print('Translated Predictions ', translated_predicts)
+
 
 # //////////////////////////////////////// Let the validation begin
 # Probably you will want to at least migrate these to another script or class when this grows..
