@@ -113,7 +113,7 @@ def export_data_excel(all_cms_data, gt):
     f_a_f = workbook.add_format({'bg_color': '#e28743', 'border': 1})
     fv_r = workbook.add_format({'bg_color': '#E21C1C', 'border': 1})
     fv_g = workbook.add_format({'bg_color': '#4BD045', 'border': 1})
-    border_f = workbook.add_format({'border': 1})
+    scores_f = workbook.add_format({'border': 1})
 
     # Writing the data to .xlsx file
     for i in range(int(np.size(class_ids))):
@@ -134,9 +134,9 @@ def export_data_excel(all_cms_data, gt):
         worksheets[i].write(10, 2, 'TN', tp_tn_f)
         worksheets[i].write(10, 3, 'CriticalValue', fv_g)
         worksheets[i].write(11, 3, 'FalselyAssociated', f_a_f)
-        worksheets[i].write(12, 0, 'Precision:', border_f)
-        worksheets[i].write(12, 1, 'Recall:', border_f)
-        worksheets[i].write(12, 2, 'F1-Score:', border_f)
+        worksheets[i].write(12, 0, 'Precision:', scores_f)
+        worksheets[i].write(12, 1, 'Recall:', scores_f)
+        worksheets[i].write(12, 2, 'F1-Score:', scores_f)
 
         # Writing the CMs for each class in its worksheet
         for j in range(int(np.size(class_ids)) - 1):
@@ -155,9 +155,9 @@ def export_data_excel(all_cms_data, gt):
             worksheets[i].write(2, k + 3, export_dict[all_cms_data[j + factor].combination[1]] /
                                 export_dict[all_cms_data[j + factor].combination[0]], fv_r)
             worksheets[i].write(3, k + 3, all_cms_data[j + factor].f_a, f_a_f)
-            worksheets[i].write(4, k + 0, 'Precision: ' + str(all_cms_data[j + factor].precision), border_f)
-            worksheets[i].write(4, k + 1, 'Recall: ' + str(all_cms_data[j + factor].recall), border_f)
-            worksheets[i].write(4, k + 2, 'F1-Score: ' + str(all_cms_data[j + factor].f1), border_f)
+            worksheets[i].write(4, k + 0, 'Precision: ' + str(all_cms_data[j + factor].precision), scores_f)
+            worksheets[i].write(4, k + 1, 'Recall: ' + str(all_cms_data[j + factor].recall), scores_f)
+            worksheets[i].write(4, k + 2, 'F1-Score: ' + str(all_cms_data[j + factor].f1), scores_f)
             worksheets[i].conditional_format(2, k + 3, 2, k + 3, {'type': 'cell',
                                                                   'criteria': 'between',
                                                                   'minimum': 0.75,
