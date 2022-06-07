@@ -1,6 +1,7 @@
 import numpy as np
 import itertools as it
 import xlsxwriter
+import translate_gt_and_predicts as trl
 
 
 exportdict = {
@@ -92,27 +93,58 @@ def export_data_excel(all_cms_data, gt):
     worksheets = list()
     all_cms_data.sort(key=lambda x: x.combination, reverse=False)
 
+    bold_f = workbook.add_format({'bold': True})
+    tp_tn_f = workbook.add_format({'bg_color': '#319dc2', 'border': 1})
+    fn_fp_f = workbook.add_format({'bg_color': '#86d3e3', 'border': 1})
+    class_f = workbook.add_format({'bg_color': '#a69686', 'border': 1})
+    f_a_f = workbook.add_format({'bg_color': '#e28743', 'border': 1})
+    fv_r = workbook.add_format({'bg_color': '#E21C1C', 'border': 1})
+    fv_g = workbook.add_format({'bg_color': '#4BD045', 'border': 1})
+    border_f = workbook.add_format({'border': 1})
+
     for i in range(int(np.size(class_ids))):
-        worksheets.append(workbook.add_worksheet('Class' + str(class_ids[i])))
+        worksheets.append(workbook.add_worksheet('Class' + trl.transldict[class_ids[i]]))
         factor = i * (np.size(class_ids) - 1)
         k = 0
+
+        worksheets[i].write(8, 0, 'Combination: Class1, Class2', bold_f)
+        worksheets[i].write(9, 0, 'Class1', class_f)
+        worksheets[i].write(10, 0, 'Class2', class_f)
+        worksheets[i].write(8, 1, 'Class1', class_f)
+        worksheets[i].write(8, 2, 'Class2', class_f)
+        worksheets[i].write(9, 1, 'TP', tp_tn_f)
+        worksheets[i].write(9, 2, 'FN', fn_fp_f)
+        worksheets[i].write(10, 1, 'FP', fn_fp_f)
+        worksheets[i].write(10, 2, 'TN', tp_tn_f)
+        worksheets[i].write(10, 3, 'CriticalValue', fv_g)
+        worksheets[i].write(11, 3, 'FalselyAssociated', f_a_f)
+        worksheets[i].write(12, 0, 'Precision:', border_f)
+        worksheets[i].write(12, 1, 'Recall:', border_f)
+        worksheets[i].write(12, 2, 'F1-Score:', border_f)
+
         for j in range(int(np.size(class_ids)) - 1):
-            combination_as_str = str(all_cms_data[j + factor].combination[0]) + ',' + \
+            combination_as_str = 'Class Combination: ' + str(all_cms_data[j + factor].combination[0]) + '\\' + \
                                  str(all_cms_data[j + factor].combination[1])
-            worksheets[i].write(0, k + 0, combination_as_str)
-            worksheets[i].write(1, k + 0, all_cms_data[j + factor].combination[0])
-            worksheets[i].write(2, k + 0, all_cms_data[j + factor].combination[1])
-            worksheets[i].write(0, k + 1, all_cms_data[j + factor].combination[0])
-            worksheets[i].write(0, k + 2, all_cms_data[j + factor].combination[1])
-            worksheets[i].write(1, k + 1, all_cms_data[j + factor].tp)
-            worksheets[i].write(1, k + 2, all_cms_data[j + factor].fn)
-            worksheets[i].write(2, k + 1, all_cms_data[j + factor].fp)
-            worksheets[i].write(2, k + 2, all_cms_data[j + factor].tn)
+            worksheets[i].write(0, k + 0, combination_as_str, bold_f)
+            worksheets[i].set_column(0, k + 5, len('Combination: Class1 \\ Class2'))
+            worksheets[i].write(1, k + 0, trl.transldict[all_cms_data[j + factor].combination[0]], class_f)
+            worksheets[i].write(2, k + 0, trl.transldict[all_cms_data[j + factor].combination[1]], class_f)
+            worksheets[i].write(0, k + 1, trl.transldict[all_cms_data[j + factor].combination[0]], class_f)
+            worksheets[i].write(0, k + 2, trl.transldict[all_cms_data[j + factor].combination[1]], class_f)
+            worksheets[i].write(1, k + 1, all_cms_data[j + factor].tp, tp_tn_f)
+            worksheets[i].write(1, k + 2, all_cms_data[j + factor].fn, fn_fp_f)
+            worksheets[i].write(2, k + 1, all_cms_data[j + factor].fp, fn_fp_f)
+            worksheets[i].write(2, k + 2, all_cms_data[j + factor].tn, tp_tn_f)
             worksheets[i].write(2, k + 3, exportdict[all_cms_data[j + factor].combination[1]] /
-                                exportdict[all_cms_data[j + factor].combination[0]])
-            worksheets[i].write(3, k + 3, all_cms_data[j + factor].f_a)
-            worksheets[i].write(4, k + 0, all_cms_data[j + factor].precision)
-            worksheets[i].write(4, k + 1, all_cms_data[j + factor].recall)
-            worksheets[i].write(4, k + 2, all_cms_data[j + factor].f1)
-            k = k + 4
+                                exportdict[all_cms_data[j + factor].combination[0]], fv_r)
+            worksheets[i].write(3, k + 3, all_cms_data[j + factor].f_a, f_a_f)
+            worksheets[i].write(4, k + 0, 'Precision: ' + str(all_cms_data[j + factor].precision), border_f)
+            worksheets[i].write(4, k + 1, 'Recall: ' + str(all_cms_data[j + factor].recall), border_f)
+            worksheets[i].write(4, k + 2, 'F1-Score: ' + str(all_cms_data[j + factor].f1), border_f)
+            worksheets[i].conditional_format(2, k + 3, 2, k + 3, {'type': 'cell',
+                                                        'criteria': 'between',
+                                                        'minimum': 0.75,
+                                                        'maximum': 1,
+                                                        'format': fv_g})
+            k = k + 5
     workbook.close()

@@ -6,7 +6,6 @@ import numpy as np
 import tensorflow as tf
 import translate_gt_and_predicts as trl
 import evaluation_expansion as evl
-import pandas as pd
 
 
 # //////////////////////////////////////// Load model
