@@ -70,7 +70,6 @@ def create_cms(gt, pred):
                 cm_obj.fn += 1
             else:
                 cm_obj.f_a += 1
-        #cm_obj.cm = np.array([[cm_obj.tp, cm_obj.fn], [cm_obj.fp, cm_obj.tn]])
     print(len(all_cms_data), 'Confusion Matrices were created')
     return all_cms_data
 
