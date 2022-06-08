@@ -14,7 +14,6 @@ def translate_gt_and_predicts(mapping_set, data_set):
 
 
 def translate_classes(data_set):
-    translated_classes = np.empty(np.size(data_set), dtype=str)
     for i in range(np.size(data_set)):
         print("Class", data_set[i], "means", transldict[int(data_set[i])])
 

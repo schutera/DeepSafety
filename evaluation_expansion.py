@@ -1,7 +1,7 @@
 import numpy as np
 import itertools as it
 import xlsxwriter
-import translate_gt_and_predicts as trl
+import translation as trl
 
 # This dict is necessary to calculate the 'FaultValue' later on
 export_dict = {
@@ -46,15 +46,12 @@ def create_cms(gt, pred):
 
         # Filtering for gt indices Class1
         gt_indices_class1 = [i for i, x in enumerate(gt) if x == single_combination[0]]
-
         # Filtering for gt indices Class2
         gt_indices_class2 = [i for i, x in enumerate(gt) if x == single_combination[1]]
-
         # Creates two arrays which will later contain the common gt and pred data
         common_gt_indices = gt_indices_class1 + gt_indices_class2
         common_gt = np.zeros(np.size(common_gt_indices), dtype=int)
         common_pred = np.zeros(np.size(common_gt_indices), dtype=int)
-
         # Getting the gt values at the filtered gt indices and the associated preds
         for j in range(np.size(common_gt_indices)):
             common_gt[j] = gt[common_gt_indices[j]]
@@ -73,7 +70,7 @@ def create_cms(gt, pred):
                 cm_obj.fn += 1
             else:
                 cm_obj.f_a += 1
-        cm_obj.cm = np.array([[cm_obj.tp, cm_obj.fn], [cm_obj.fp, cm_obj.tn]])
+        #cm_obj.cm = np.array([[cm_obj.tp, cm_obj.fn], [cm_obj.fp, cm_obj.tn]])
     print(len(all_cms_data), 'Confusion Matrices were created')
     return all_cms_data
 

@@ -4,7 +4,7 @@
 
 import numpy as np
 import tensorflow as tf
-import translate_gt_and_predicts as trl
+import translation as trl
 import evaluation_expansion as evl
 
 
