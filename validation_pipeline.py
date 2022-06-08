@@ -4,6 +4,7 @@
 
 import numpy as np
 import tensorflow as tf
+import pandas as pd
 
 
 # //////////////////////////////////////// Load model
@@ -70,6 +71,10 @@ def accuracy(predictions, test_labels):
     return metric.result().numpy()
 
 print('Accuracy: ', accuracy(predictions, test_labels))
+
+class_names_df = pd.read_csv('./signnames.csv', index_col="ClassId")
+print(f'Class ID: {predictions[0]} Class Name: {class_names_df["SignName"][predictions[0]]}'
+)
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
