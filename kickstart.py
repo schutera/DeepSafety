@@ -118,7 +118,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
     log_dir=log_dir,
     histogram_freq=1)  # Enable histogram computation for every epoch.
 
-NUM_EPOCHS = 50  # This is probably not enough
+NUM_EPOCHS = 2  # This is probably not enough
 
 history = model.fit(train_ds,
                     validation_data=val_ds,

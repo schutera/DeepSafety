@@ -4,17 +4,21 @@
 
 import numpy as np
 import tensorflow as tf
+from real_ground_truth import print_difference, set_real_ground_truth
+from real_ground_truth import set_real_prediction
+from real_ground_truth import get_difference
+from real_ground_truth import print_difference
 
 
 # //////////////////////////////////////// Load model
-model_name = "1641502791"
+model_name = "1654336255"
 import_path = "./tmp/saved_models/{}".format(int(model_name))
 model = tf.keras.models.load_model(import_path)
 
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_0/"
+data_root = "./safetyBatches/Batch_5/"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -43,8 +47,10 @@ test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—ima
 # //////////////////////////////////////// Inference.
 predictions = model.predict(test_ds)
 predictions = np.argmax(predictions, axis=1)
-print('Predictions: ', predictions)
-print('Ground truth: ', test_labels)
+real_predicitions = set_real_prediction(predictions, class_names)
+print('Predictions: ', real_predicitions)
+real_ground_truth = set_real_ground_truth(test_labels, class_names)
+print('Ground truth: ', real_ground_truth)
 
 
 # //////////////////////////////////////// Let the validation begin
@@ -55,6 +61,10 @@ def accuracy(predictions, test_labels):
     return metric.result().numpy()
 
 print('Accuracy: ', accuracy(predictions, test_labels))
+
+difference = get_difference(real_ground_truth, real_predicitions)
+
+print_difference(real_ground_truth, difference)
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
