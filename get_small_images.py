@@ -1,22 +1,30 @@
 import os
 import cv2
+from dataclasses import dataclass
 
 
 def get_small_images(batch_path, probabilities):
-    threshold = (30, 30, 3)
+    threshold_shape = (50, 50, 3)
+    threshold_probability = 90
+
+    @dataclass
+    class critical_image:
+        path: ...
+        probability: ...
+        shape: ...
 
     critical_images = []
-    for i in range(2):
-        critical_images.append([])
     for batch, directories, images in os.walk(batch_path):
         for image in images:
             image_path = os.path.join(batch, image)
             image_shape = cv2.imread(image_path).shape
 
-            if probabilities[images.index(image)] < 90:
-                critical_images[1].append(probabilities[images.index(image)])
-            if image_shape[1] < threshold[1]:
-                critical_images[0].append(os.path.basename(image))
+            """if probabilities[images.index(image)] < threshold_probability:
+                critical_images[images.index(image)].append(critical_image(name=image_path, prediction=probabilities[images.index(image)]))
+                #critical_images[1].append(probabilities[images.index(image)])"""
+            if image_shape[0] < threshold_shape[0] and image_shape[1] < threshold_shape[1]:
+                if probabilities[images.index(image)] < threshold_probability:
+                    critical_images.append(critical_image(path=image_path, probability=probabilities[images.index(image)], shape=image_shape))
 
-    print("These images could be prediced false due to their size:\n", critical_images)
-# get_small_images()
+    return critical_images
+#get_small_images()

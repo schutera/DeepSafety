@@ -7,6 +7,7 @@ import tensorflow as tf
 import correct_ground_truth as gr
 import get_small_images as gsi
 import calc_prediction_probability as prob
+import display_images_gui as gui
 
 # //////////////////////////////////////// Load model
 
@@ -68,7 +69,9 @@ def accuracy(predictions, test_labels):
 print('Accuracy: ', accuracy(test_data, test_labels_n))
 
 probabilities = prob.calc_prediction_probability(softmax)
-gsi.get_small_images(data_root, probabilities)
+critical_images = gsi.get_small_images(data_root, probabilities)
+gui.display_images(critical_images)
+
 
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
