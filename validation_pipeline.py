@@ -18,7 +18,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_1/"
+data_root = "./safetyBatches/Batch_7/"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -69,7 +69,7 @@ def accuracy(predictions, test_labels):
 print('Accuracy: ', accuracy(test_data, test_labels_n))
 
 probabilities = prob.calc_prediction_probability(softmax)
-critical_images = gsi.get_small_images(data_root, probabilities)
+critical_images = gsi.get_small_images(data_root, probabilities, test_data, test_labels_n)
 gui.display_images(critical_images)
 
 
