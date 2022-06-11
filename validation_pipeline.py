@@ -18,7 +18,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_7/"
+data_root = "./safetyBatches/Batch_1/"
 batch_size = 32
 img_height = 224
 img_width = 224

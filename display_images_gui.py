@@ -1,8 +1,6 @@
-import os
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
-
 
 def display_images(critical_images):
     root = Tk()
@@ -41,25 +39,28 @@ def display_images(critical_images):
 
     # Generate Rows
     image_objects = []
-    for element in critical_images:
-        image = Image.open(element.path).resize((70, 70))
-        image_objects.append(ImageTk.PhotoImage(image))
+    if critical_images == 0:
+        Label(second_frame, text="No critical images").grid(row=1, column=0, pady=10, padx=20)
+    else:
+        for element in critical_images:
+            image = Image.open(element.path).resize((70, 70))
+            image_objects.append(ImageTk.PhotoImage(image))
 
-    for i in range(len(critical_images)):
-        Label(second_frame, image=image_objects[i]).grid(row=i, column=0, pady=10, padx=20)
-        Message(second_frame,
-                text="Filename:\nResolution:\nProbability:\nPrediction:\nGround Truth:",
-                font=("Arial", 10),
-                justify=LEFT,
-                aspect=200).grid(row=i, column=1, pady=10)
-        Message(second_frame,
-                text=critical_images[i].file_name + "\n"
-                     + str(critical_images[i].shape[0]) + " x " + str(critical_images[i].shape[1]) + " px\n"
-                     + str(round(critical_images[i].probability, 2)) + " %\n"
-                     + str(critical_images[i].prediction) + "\n"
-                     + str(critical_images[i].ground_truth),
-                font=("Arial", 10),
-                justify=LEFT,
-                aspect=200).grid(row=i, column=2, pady=10, padx=10)
+        for i in range(len(critical_images)):
+            Label(second_frame, image=image_objects[i]).grid(row=i, column=0, pady=10, padx=20)
+            Message(second_frame,
+                    text="Filename:\nResolution:\nProbability:\nPrediction:\nGround Truth:",
+                    font=("Arial", 10),
+                    justify=LEFT,
+                    aspect=200).grid(row=i, column=1, pady=10)
+            Message(second_frame,
+                    text=critical_images[i].file_name + "\n"
+                         + str(critical_images[i].shape[0]) + " x " + str(critical_images[i].shape[1]) + " px\n"
+                         + str(round(critical_images[i].probability, 2)) + " %\n"
+                         + str(critical_images[i].prediction) + "\n"
+                         + str(critical_images[i].ground_truth),
+                    font=("Arial", 10),
+                    justify=LEFT,
+                    aspect=200).grid(row=i, column=2, pady=10, padx=10)
 
     root.mainloop()

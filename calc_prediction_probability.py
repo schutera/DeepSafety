@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def calc_prediction_probability(softmax):
     softmax_list = softmax.numpy()
     prediction_probabilities = []
