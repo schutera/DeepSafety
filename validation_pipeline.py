@@ -60,21 +60,25 @@ def accuracy(predictions, test_labels):
 
 print('Accuracy: ', accuracy(predictions, test_labels))
 
-Test_len = len(test_labels)
-searched_class=1
+test_classes = ["0", "1", "2", "3", "4"]
+
 correct =0
 incorrect=0
+for o in range(len(test_classes)):
+  for i in range(len(test_labels)):
+    if test_labels[i] == o:
+      if predictions[i] == test_labels[i]:
+        correct+=1
+      else:
+        incorrect+=1
 
-for i in range(Test_len):
-  if test_labels[i] == searched_class:
-    if predictions[i] == test_labels[i]:
-      correct+=1
-    else:
-      incorrect+=1
-  
+  print("Korrekt in Klasse",test_classes[o], "sind", correct)
+  print("Inkorrekt in der Klasse",test_classes[o], "sind",incorrect)
+  count_prooved=correct+incorrect
+  print("Das entspricht einer Genaugigkeit der Klasse", test_classes[o], "von", 100*(correct/count_prooved),"%")
+  correct=0
+  incorrect=0
 
-print("Korrekt", correct)
-print("Inkorrekt", incorrect)
 
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
