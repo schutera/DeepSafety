@@ -1,0 +1,44 @@
+Evaluation Report:
+
+Accuracy of all classes combined:
+
+Absolute accuracy: 4 / 17 pictures guessed correct 
+Relative accuracy: 23.52941185235977 %
+
+Data for all classes with pictures in the current test:
+
+Class 0: 1 correct, 0 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 100.0
+Class 1: 3 correct, 1 wrong prediction(s) wrong with 4 pictures of this class -> rel. acc. in %: 75.0
+Class 10: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 11: 0 correct, 5 wrong prediction(s) wrong with 5 pictures of this class -> rel. acc. in %: 0.0
+Class 12: 0 correct, 5 wrong prediction(s) wrong with 5 pictures of this class -> rel. acc. in %: 0.0
+
+Confusion Matrix for the test data:
+
+ Predicted  0   1   2   3   4   10  12  18
+Actual                                   
+0           1   0   0   0   0   0   0   0
+1           0   3   0   0   0   0   1   0
+10          0   0   2   0   0   0   0   0
+11          0   0   0   3   0   1   0   1
+12          0   0   0   0   5   0   0   0
+
+Test Order:
+
+1. Guess:  0 predicted, 0 is the actual class
+2. Guess:  1 predicted, 1 is the actual class
+3. Guess:  1 predicted, 1 is the actual class
+4. Guess:  12 predicted, 1 is the actual class
+5. Guess:  1 predicted, 1 is the actual class
+6. Guess:  2 predicted, 10 is the actual class
+7. Guess:  2 predicted, 10 is the actual class
+8. Guess:  18 predicted, 11 is the actual class
+9. Guess:  3 predicted, 11 is the actual class
+10. Guess:  10 predicted, 11 is the actual class
+11. Guess:  3 predicted, 11 is the actual class
+12. Guess:  3 predicted, 11 is the actual class
+13. Guess:  4 predicted, 12 is the actual class
+14. Guess:  4 predicted, 12 is the actual class
+15. Guess:  4 predicted, 12 is the actual class
+16. Guess:  4 predicted, 12 is the actual class
+17. Guess:  4 predicted, 12 is the actual class

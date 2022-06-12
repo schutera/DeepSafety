@@ -1,0 +1,130 @@
+Evaluation Report:
+
+Accuracy of all classes combined:
+
+Absolute accuracy: 2 / 57 pictures guessed correct 
+Relative accuracy: 3.5087719559669495 %
+
+Data for all classes with pictures in the current test:
+
+Class 1: 2 correct, 0 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 100.0
+Class 2: 0 correct, 1 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 0.0
+Class 3: 0 correct, 3 wrong prediction(s) wrong with 3 pictures of this class -> rel. acc. in %: 0.0
+Class 4: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 5: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 7: 0 correct, 3 wrong prediction(s) wrong with 3 pictures of this class -> rel. acc. in %: 0.0
+Class 8: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 9: 0 correct, 4 wrong prediction(s) wrong with 4 pictures of this class -> rel. acc. in %: 0.0
+Class 10: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 11: 0 correct, 3 wrong prediction(s) wrong with 3 pictures of this class -> rel. acc. in %: 0.0
+Class 12: 0 correct, 4 wrong prediction(s) wrong with 4 pictures of this class -> rel. acc. in %: 0.0
+Class 13: 0 correct, 3 wrong prediction(s) wrong with 3 pictures of this class -> rel. acc. in %: 0.0
+Class 15: 0 correct, 1 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 0.0
+Class 16: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 17: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 18: 0 correct, 3 wrong prediction(s) wrong with 3 pictures of this class -> rel. acc. in %: 0.0
+Class 20: 0 correct, 1 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 0.0
+Class 21: 0 correct, 1 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 0.0
+Class 23: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 24: 0 correct, 1 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 0.0
+Class 25: 0 correct, 3 wrong prediction(s) wrong with 3 pictures of this class -> rel. acc. in %: 0.0
+Class 27: 0 correct, 1 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 0.0
+Class 30: 0 correct, 1 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 0.0
+Class 33: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 34: 0 correct, 1 wrong prediction(s) wrong with 1 pictures of this class -> rel. acc. in %: 0.0
+Class 35: 0 correct, 2 wrong prediction(s) wrong with 2 pictures of this class -> rel. acc. in %: 0.0
+Class 38: 0 correct, 3 wrong prediction(s) wrong with 3 pictures of this class -> rel. acc. in %: 0.0
+
+Confusion Matrix for the test data:
+
+ Predicted  0   1   2   3   4   5   7   8   ...  27  29  32  34  38  40  41  42
+Actual                                     ...                                
+1           0   2   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+2           0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+3           0   1   0   0   0   0   0   0  ...   0   0   0   0   0   0   1   0
+4           1   0   0   0   0   0   0   0  ...   0   0   0   1   0   0   0   0
+5           0   0   0   0   0   0   0   0  ...   0   0   0   0   2   0   0   0
+7           0   0   0   0   0   0   0   0  ...   0   0   0   0   0   2   0   0
+8           0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   1   0
+9           0   0   1   0   0   0   0   0  ...   0   0   0   0   0   0   0   3
+10          0   0   2   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+11          0   0   0   1   0   0   0   0  ...   0   0   0   0   0   0   0   0
+12          0   0   0   0   4   0   0   0  ...   0   0   0   0   0   0   0   0
+13          0   0   0   0   0   3   0   0  ...   0   0   0   0   0   0   0   0
+15          0   0   0   0   0   0   1   0  ...   0   0   0   0   0   0   0   0
+16          0   0   0   0   0   0   0   2  ...   0   0   0   0   0   0   0   0
+17          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+18          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+20          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+21          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+23          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+24          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+25          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   1   0   0
+27          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+30          0   0   0   0   0   0   0   0  ...   0   0   0   0   0   0   0   0
+33          0   0   0   0   0   0   0   0  ...   2   0   0   0   0   0   0   0
+34          0   0   0   0   0   0   0   0  ...   1   0   0   0   0   0   0   0
+35          0   0   0   0   0   0   0   0  ...   0   2   0   0   0   0   0   0
+38          0   0   0   0   0   0   0   0  ...   0   1   2   0   0   0   0   0
+
+[27 rows x 27 columns]
+
+Test Order:
+
+1. Guess:  1 predicted, 1 is the actual class
+2. Guess:  1 predicted, 1 is the actual class
+3. Guess:  2 predicted, 10 is the actual class
+4. Guess:  2 predicted, 10 is the actual class
+5. Guess:  3 predicted, 11 is the actual class
+6. Guess:  18 predicted, 11 is the actual class
+7. Guess:  17 predicted, 11 is the actual class
+8. Guess:  4 predicted, 12 is the actual class
+9. Guess:  4 predicted, 12 is the actual class
+10. Guess:  4 predicted, 12 is the actual class
+11. Guess:  4 predicted, 12 is the actual class
+12. Guess:  5 predicted, 13 is the actual class
+13. Guess:  5 predicted, 13 is the actual class
+14. Guess:  5 predicted, 13 is the actual class
+15. Guess:  7 predicted, 15 is the actual class
+16. Guess:  8 predicted, 16 is the actual class
+17. Guess:  8 predicted, 16 is the actual class
+18. Guess:  9 predicted, 17 is the actual class
+19. Guess:  9 predicted, 17 is the actual class
+20. Guess:  10 predicted, 18 is the actual class
+21. Guess:  10 predicted, 18 is the actual class
+22. Guess:  24 predicted, 18 is the actual class
+23. Guess:  12 predicted, 2 is the actual class
+24. Guess:  11 predicted, 20 is the actual class
+25. Guess:  14 predicted, 21 is the actual class
+26. Guess:  18 predicted, 23 is the actual class
+27. Guess:  16 predicted, 23 is the actual class
+28. Guess:  17 predicted, 24 is the actual class
+29. Guess:  18 predicted, 25 is the actual class
+30. Guess:  18 predicted, 25 is the actual class
+31. Guess:  40 predicted, 25 is the actual class
+32. Guess:  20 predicted, 27 is the actual class
+33. Guess:  41 predicted, 3 is the actual class
+34. Guess:  1 predicted, 3 is the actual class
+35. Guess:  23 predicted, 3 is the actual class
+36. Guess:  24 predicted, 30 is the actual class
+37. Guess:  27 predicted, 33 is the actual class
+38. Guess:  27 predicted, 33 is the actual class
+39. Guess:  27 predicted, 34 is the actual class
+40. Guess:  29 predicted, 35 is the actual class
+41. Guess:  29 predicted, 35 is the actual class
+42. Guess:  32 predicted, 38 is the actual class
+43. Guess:  32 predicted, 38 is the actual class
+44. Guess:  29 predicted, 38 is the actual class
+45. Guess:  0 predicted, 4 is the actual class
+46. Guess:  34 predicted, 4 is the actual class
+47. Guess:  38 predicted, 5 is the actual class
+48. Guess:  38 predicted, 5 is the actual class
+49. Guess:  40 predicted, 7 is the actual class
+50. Guess:  23 predicted, 7 is the actual class
+51. Guess:  40 predicted, 7 is the actual class
+52. Guess:  23 predicted, 8 is the actual class
+53. Guess:  41 predicted, 8 is the actual class
+54. Guess:  2 predicted, 9 is the actual class
+55. Guess:  42 predicted, 9 is the actual class
+56. Guess:  42 predicted, 9 is the actual class
+57. Guess:  42 predicted, 9 is the actual class
