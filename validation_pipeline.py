@@ -5,7 +5,7 @@
 from opcode import haslocal
 import numpy as np
 import tensorflow as tf
-#import validation
+import validation
 
 
 # //////////////////////////////////////// Load model
@@ -32,8 +32,8 @@ test_ds = tf.keras.utils.image_dataset_from_directory(
 # Get information on your classes
 class_names = np.array(test_ds.class_names)
 print('Classes available: ', class_names)
-
 # get the ground truth labels
+
 test_labels = np.concatenate([y for x, y in test_ds], axis=0)
 
 # Remember that we had some preprocessing before our training this needs to be repeated here
@@ -60,24 +60,9 @@ def accuracy(predictions, test_labels):
 
 print('Accuracy: ', accuracy(predictions, test_labels))
 
-test_classes = ["0", "1", "2", "3", "4"]
-
-correct =0
-incorrect=0
-for o in range(len(test_classes)):
-  for i in range(len(test_labels)):
-    if test_labels[i] == o:
-      if predictions[i] == test_labels[i]:
-        correct+=1
-      else:
-        incorrect+=1
-
-  print("Korrekt in Klasse",test_classes[o], "sind", correct)
-  print("Inkorrekt in der Klasse",test_classes[o], "sind",incorrect)
-  count_prooved=correct+incorrect
-  print("Das entspricht einer Genaugigkeit der Klasse", test_classes[o], "von", 100*(correct/count_prooved),"%")
-  correct=0
-  incorrect=0
+#Please write here your Classes you want to know your accurancy
+testingclass=3
+validation.onceaccurancy(test_labels, predictions, testingclass)
 
 
 
