@@ -15,7 +15,7 @@ model = tf.keras.models.load_model(import_path)
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_0/"
+data_root = "./safetyBatches/Batch_5/"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -48,7 +48,7 @@ print("Predictions without argmax: ", predictions_array)
 predictions = np.argmax(predictions_array, axis=1)
 print('Predictions: ', predictions)
 print('Ground truth: ', test_labels)
-monitor_predictions(predictions_array, predictions)
+monitor_predictions(predictions_array)
 
 
 # //////////////////////////////////////// Let the validation begin
