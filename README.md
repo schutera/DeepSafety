@@ -32,14 +32,6 @@ Obs! How I use the term system, and not neural network or model.
 
 ## FAQ
 So far so good.
-1. How will my code be evaluated?
-- Program Design (Solution well thought through)
-- Program Execution (Program runs correctly)
-- Specification Satisfaction (Program contributes to the overall validation pipeline)
-- Coding Style (Well-formatted, modular & understandable code, use of language capabilities)
-- Comments (Concise, meaningful, well-formatted comments)
-- Extra Credit (for a very smart or 'beautiful' idea that reflects deep understanding of the topic)
-
 
 ## Additional Material
 (If material is behind a paywall, remember! You can order a lot of material through your universitie's library - there is no need to buy everything yourself)
