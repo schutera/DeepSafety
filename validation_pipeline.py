@@ -49,6 +49,7 @@ test_labels_n = gr.correct_ground_truth(test_labels, class_names)
 
 # //////////////////////////////////////// Inference.
 predictions = model.predict(test_ds)
+# get the prediction probabilities for every class, in each image
 softmax = tf.nn.softmax(predictions,-1)
 predictions = np.argmax(predictions, axis=1)
 
@@ -68,8 +69,13 @@ def accuracy(predictions, test_labels):
 
 print('Accuracy: ', accuracy(test_data, test_labels_n))
 
+# extract the maximum probability for each image
 probabilities = prob.calc_prediction_probability(softmax)
+
+# return a list with critical images, extracted by their resolution
 critical_images = gsi.get_small_images(data_root, probabilities, test_data, test_labels_n)
+
+# generate a graphical user interface for displaying critical images
 gui.display_images(critical_images)
 
 
