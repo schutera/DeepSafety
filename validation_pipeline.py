@@ -47,9 +47,9 @@ test_ds = test_ds.map(lambda x, y: (normalization_layer(x), y))  # Where x—ima
 # //////////////////////////////////////// Inference.
 predictions = model.predict(test_ds)
 predictions = np.argmax(predictions, axis=1)
-real_predicitions = set_real_prediction(predictions, class_names)
+real_predicitions = set_real_prediction(predictions, class_names) #calling function to get the real predictions
 print('Predictions: ', real_predicitions)
-real_ground_truth = set_real_ground_truth(test_labels, class_names)
+real_ground_truth = set_real_ground_truth(test_labels, class_names) #calling function to get the real ground truth
 print('Ground truth: ', real_ground_truth)
 
 
@@ -62,9 +62,9 @@ def accuracy(predictions, test_labels):
 
 print('Accuracy: ', accuracy(predictions, test_labels))
 
-difference = get_difference(real_ground_truth, real_predicitions)
+difference = get_difference(real_ground_truth, real_predicitions) #calling function to get the error/differneces between ground truth and preddiction
 
-print_difference(real_ground_truth, difference)
+print_difference(real_ground_truth, difference) #calling function to print the difference either in full or just the class with the most errors
 
 # There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
 # However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
