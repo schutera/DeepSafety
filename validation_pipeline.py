@@ -4,17 +4,20 @@
 
 import numpy as np
 import tensorflow as tf
-
+import statistic_analytics as stat
+import classdetection as faced
 
 # //////////////////////////////////////// Load model
-model_name = "1641502791"
+
+
+model_name = "1655036195"
 import_path = "./tmp/saved_models/{}".format(int(model_name))
 model = tf.keras.models.load_model(import_path)
 
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-data_root = "./safetyBatches/Batch_0/"
+data_root = "./safetyBatches/Batch_7/Batch_7"
 batch_size = 32
 img_height = 224
 img_width = 224
@@ -33,6 +36,9 @@ print('Classes available: ', class_names)
 
 # get the ground truth labels
 test_labels = np.concatenate([y for x, y in test_ds], axis=0)
+#Mapping test labels to the folder names instead of the index
+for i in range(0, len(test_labels)):
+    test_labels[i]=int(class_names[test_labels[i]])
 
 # Remember that we had some preprocessing before our training this needs to be repeated here
 # Preprocessing as the tensorflow hub models expect images as float inputs [0,1]
@@ -61,3 +67,9 @@ print('Accuracy: ', accuracy(predictions, test_labels))
 # Think about a system on how to decide which metric to go for..
 
 # You are looking for a great package to generate your reports, let me recommend https://plotly.com/dash/
+
+#stat.statistic_analysis(predictions, test_labels)
+
+faced.class_detection(predictions, test_labels, 1)
+#calling the class_detection
+#possibility to choose class the function should work for
