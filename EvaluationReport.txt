@@ -1,4 +1,6 @@
-Evaluation Report:
+Evaluation report for model 1650897188:
+
+Data root for the used batch: ./safetyBatches/Batch_0/
 
 Accuracy of all classes combined:
 
@@ -23,7 +25,7 @@ Actual
 11          0   0   0   3   0   1   0   1
 12          0   0   0   0   5   0   0   0
 
-Test Order:
+Test order:
 
 1. Guess:  0 predicted, 0 is the actual class
 2. Guess:  1 predicted, 1 is the actual class

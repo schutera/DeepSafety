@@ -1,13 +1,13 @@
 # This is the seed for your validation pipeline. It will allow you to load a model and run it on data from a directory.
 
 # //////////////////////////////////////// Setup
-
 import numpy as np
 import tensorflow as tf
+import evaluation
 
 
 # //////////////////////////////////////// Load model
-model_name = "1641502791"
+model_name = "1650897188"
 import_path = "./tmp/saved_models/{}".format(int(model_name))
 model = tf.keras.models.load_model(import_path)
 
@@ -52,15 +52,8 @@ print('Ground truth: ', test_labels)
 
 # //////////////////////////////////////// Let the validation begin
 # Probably you will want to at least migrate these to another script or class when this grows..
-def accuracy(predictions, test_labels):
-    metric = tf.keras.metrics.Accuracy()
-    metric.update_state(predictions, test_labels)
-    return metric.result().numpy()
 
-print('Accuracy: ', accuracy(predictions, test_labels))
-
-# There is more and this should get you started: https://www.tensorflow.org/api_docs/python/tf/keras/metrics
-# However it is not about how many metrics you crank out, it is about whether you find the meangingful ones and report on them.
-# Think about a system on how to decide which metric to go for..
-
-# You are looking for a great package to generate your reports, let me recommend https://plotly.com/dash/
+#creating an object of developed class "NetworkEvaluation" by calling the constructor
+network_evaluation = evaluation.NetworkEvaluation(predictions, test_labels)
+#calling the method "createEvaluationReport" to print the evaluation report
+network_evaluation.createEvaluationReport(model_name, data_root)
