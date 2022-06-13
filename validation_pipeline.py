@@ -3,20 +3,26 @@
 # //////////////////////////////////////// Setup
 
 import numpy as np
-import tensorflow as tf
 import pandas as pd
-
+import tensorflow as tf
+import Augmentation
 
 # //////////////////////////////////////// Load model
-model_name = "1641502791"
+model_name = "1655073455"
 import_path = "./tmp/saved_models/{}".format(int(model_name))
 model = tf.keras.models.load_model(import_path)
 
 # //////////////////////////////////////// Load data
 # You will need to unzip the respective batch folders.
 # Obviously Batch_0 is not sufficient for testing as you will soon find out.
-val_data_root = "./safetyBatches/Batch_0/"
+val_data_root = "./safetyBatches/Batch_3/"
 train_data_root = "./data/Train/"
+
+# beginning Clemens
+Augmentation.dark_augmentation_short(val_data_root)
+Augmentation.average_brightnesses()
+# end Clemens
+
 
 batch_size = 32
 img_height = 224

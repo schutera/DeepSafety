@@ -23,8 +23,10 @@ import datetime
 from tensorboard import program
 
 
+
 # //////////////////////////////////////// Download Backbone in headless mode
 # Meaning these are pure feature extractors
+import Augmentation
 
 mobilenet_v2 = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4"
 inception_v3 = "https://tfhub.dev/google/tf2-preview/inception_v3/feature_vector/4"
@@ -38,6 +40,8 @@ feature_extractor_model = inception_v3  # @param ["mobilenet_v2", "inception_v3"
 
 # store it to a local folder which you need to define here, for now we only care about the Train data part:
 data_root = "./data/Train/"
+
+Augmentation.dark_augmentation_short(data_root)
 
 batch_size = 32
 img_height = 224
@@ -60,6 +64,7 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
   image_size=(img_height, img_width),
   batch_size=batch_size
 )
+
 
 # check whether all your classes have been loaded correctly @class_names ['0' '1' '10' '11' '12']
 class_names = np.array(train_ds.class_names)
@@ -118,7 +123,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(
     log_dir=log_dir,
     histogram_freq=1)  # Enable histogram computation for every epoch.
 
-NUM_EPOCHS = 50  # This is probably not enough
+NUM_EPOCHS = 5  # This is probably not enough
 
 history = model.fit(train_ds,
                     validation_data=val_ds,
