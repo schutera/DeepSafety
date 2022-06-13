@@ -1,9 +1,13 @@
 numpy
-pandas
 tensorboard==2.6.0
 tensorboard-data-server==0.6.0
 tensorboard-plugin-wit==1.8.1
 tensorflow==2.7.0
-tensorflow-estimator==2.7.0
+tensorflow-estimator==2.9.0
 tensorflow-hub==0.12.0
 tensorflow-io-gcs-filesystem==0.23.1
+Pillow
+Image
+scikit-image
+#matplotlib.pyplot as plt
+pandas
