@@ -8,7 +8,7 @@ Provides an initial pipeline, supporting pretrained models, data loading from di
 ### requirements.txt
 Running python == 3.9, the crucial imports are
 ```
-numpy==1.21.2
+numpy==1.24.2
 tensorflow==2.7.0
 tensorflow-hub==0.12.0
 tensorboard==2.6.0
