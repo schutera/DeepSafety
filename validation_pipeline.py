@@ -20,8 +20,8 @@ def main():
     train_data_root = "./data/Train/"
 
     batch_size = 32
-    img_height = 224
-    img_width = 224
+    img_height = 96  # 96 pixels for imagenet_mobilenet_v2_100_96, 224 pixels for mobilenet_v2 and inception_v3
+    img_width = 96  # 96 pixels for imagenet_mobilenet_v2_100_96, 224 pixels for mobilenet_v2 and inception_v3
 
     train_ds = tf.keras.utils.image_dataset_from_directory(train_data_root)
     # Get information on your train classes
