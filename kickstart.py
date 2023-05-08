@@ -28,12 +28,13 @@ from tensorboard import program
 
 mobilenet_v2 = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4"
 inception_v3 = "https://tfhub.dev/google/tf2-preview/inception_v3/feature_vector/4"
+imagenet_mobilenet_v2_100_96 = (
+    "https://tfhub.dev/google/imagenet/mobilenet_v2_100_96/feature_vector/5"
+)
 
 
 def main():
-    feature_extractor_model = (
-        inception_v3  # @param ["mobilenet_v2", "inception_v3"] choose wisely
-    )
+    feature_extractor_model = imagenet_mobilenet_v2_100_96  # @param ["mobilenet_v2", "inception_v3", "imagenet_mobilenet_v2_100_96"] choose wisely
 
     # //////////////////////////////////////// Data data data
     # The data to train and validate the model can be downloaded here:
@@ -43,8 +44,8 @@ def main():
     data_root = "./data/Train/"
 
     batch_size = 32
-    img_height = 224
-    img_width = 224
+    img_height = 96  # 96 pixels for imagenet_mobilenet_v2_100_96, 224 pixels for mobilenet_v2 and inception_v3
+    img_width = 96  # 96 pixels for imagenet_mobilenet_v2_100_96, 224 pixels for mobilenet_v2 and inception_v3
 
     train_ds = tf.keras.utils.image_dataset_from_directory(
         data_root,
