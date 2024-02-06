@@ -29,18 +29,21 @@ mlflow.set_tracking_uri(uri="http://127.0.0.1:8080")
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-# TODO
 class Net(nn.Module):
-    def __init__(self, num_classes):
-        super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 100, 5)
-        self.conv1_bn = nn.BatchNorm2d(100)
-        self.pool = nn.MaxPool2d(2, 2)
+    """Some decent neural network for traffic sign classification.
 
-        self.conv2 = nn.Conv2d(100, 150, 3)
+    Feel free to adapt or change the architecture.
+    """
+
+    def __init__(self, num_classes: int):
+        super(Net, self).__init__()
+        self.conv1 = nn.Conv2d(3, 100, kernel_size=5)
+        self.conv1_bn = nn.BatchNorm2d(100)
+
+        self.conv2 = nn.Conv2d(100, 150, kernel_size=3)
         self.conv2_bn = nn.BatchNorm2d(150)
 
-        self.conv3 = nn.Conv2d(150, 250, 1)
+        self.conv3 = nn.Conv2d(150, 250, kernel_size=1)
         self.conv3_bn = nn.BatchNorm2d(250)
 
         self.fc1 = nn.Linear(250 * 3 * 3, 350)
@@ -50,14 +53,18 @@ class Net(nn.Module):
         self.dropout = nn.Dropout(p=0.5)
 
     def forward(self, x):
-        x = self.pool(F.elu(self.conv1(x)))
-        x = self.dropout(self.conv1_bn(x))
-        x = self.pool(F.elu(self.conv2(x)))
-        x = self.dropout(self.conv2_bn(x))
-        x = self.pool(F.elu(self.conv3(x)))
-        x = self.dropout(self.conv3_bn(x))
+        x = self.conv1_bn(F.max_pool2d(F.leaky_relu(self.conv1(x)), 2))
+        x = self.dropout(x)
+
+        x = self.conv2_bn(F.max_pool2d(F.leaky_relu(self.conv2(x)), 2))
+        x = self.dropout(x)
+
+        x = self.conv3_bn(F.max_pool2d(F.leaky_relu(self.conv3(x)), 2))
+        x = self.dropout(x)
+
         x = x.view(-1, 250 * 3 * 3)
-        x = F.elu(self.fc1(x))
+        x = F.relu(self.fc1(x))
+
         x = self.dropout(self.fc1_bn(x))
         x = self.fc2(x)
 
