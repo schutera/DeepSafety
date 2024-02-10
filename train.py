@@ -22,9 +22,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import torchvision
+from torchvision.transforms import v2
 from tqdm import tqdm
 
-mlflow.set_tracking_uri(uri="http://127.0.0.1:8080")
+# Set the tracking server to be localhost with sqlite as tracking store
+mlflow.set_tracking_uri(uri="sqlite:///mlruns.db")
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -81,10 +83,11 @@ def load_and_transform_data(
 
     You may want to extend this.
     """
-    data_transforms = torchvision.transforms.Compose(
+    data_transforms = v2.Compose(
         [
-            torchvision.transforms.Resize(img_dimensions),
-            torchvision.transforms.ToTensor(),
+            v2.ToImage(),
+            v2.Resize(img_dimensions),
+            v2.ToDtype(torch.float32, scale=True),
         ]
     )
 
@@ -233,7 +236,7 @@ if __name__ == "__main__":
 
     mlflow.set_experiment("Deep Safety")
 
-    with mlflow.start_run() as run:
+    with mlflow.start_run():
         # Log the hyperparameters, add more if needed
         mlflow.log_params(
             {
