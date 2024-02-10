@@ -6,14 +6,54 @@ This is just a starting point for your validation pipeline.
 import argparse
 import csv
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Callable, Dict, List, Optional
 
 import mlflow
 import torch
 import torch.nn as nn
 import torchvision
+from torchvision.datasets.folder import default_loader
+from torchvision.transforms import v2
 
-mlflow.set_tracking_uri(uri="http://127.0.0.1:8080")
+ROOT_DIR = Path(__file__).parent
+
+# Set the tracking server to be localhost with sqlite as tracking store
+mlflow.set_tracking_uri(uri="sqlite:///mlruns.db")
+
+
+class SafetyBatchDataset(torchvision.datasets.ImageFolder):
+    """Custom dataset for safety batch."""
+
+    def __init__(
+        self,
+        root: str,
+        transform: Optional[Callable] = None,
+        target_transform: Optional[Callable] = None,
+        loader: Callable[[str], Any] = default_loader,
+        is_valid_file: Optional[Callable[[str], bool]] = None,
+    ):
+        super(SafetyBatchDataset, self).__init__(
+            root=root,
+            loader=loader,
+            transform=transform,
+            target_transform=target_transform,
+            is_valid_file=is_valid_file,
+        )
+
+    def __getitem__(self, idx):
+        path, target = self.samples[idx]
+        sample = self.loader(path)
+        if self.transform is not None:
+            sample = self.transform(sample)
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        # convert target index to class label
+        target_label = int(
+            [label for label, idx in self.class_to_idx.items() if idx == target][0]
+        )
+
+        return sample, target_label
 
 
 def get_sign_names() -> Dict[int, str]:
@@ -41,23 +81,22 @@ def load_and_transform_data(
 
     You may want to extend this.
     """
-    data_transforms = torchvision.transforms.Compose(
+    data_transforms = v2.Compose(
         [
-            torchvision.transforms.Resize(img_dimensions),
-            torchvision.transforms.ToTensor(),
+            v2.ToImage(),
+            v2.Resize(img_dimensions),
+            v2.ToDtype(torch.float32, scale=True),
         ]
     )
 
-    dataset = torchvision.datasets.ImageFolder(
-        data_directory_path, transform=data_transforms
-    )
+    dataset = SafetyBatchDataset(data_directory_path, transform=data_transforms)
 
-    batch_loader = torch.utils.data.DataLoader(
+    data_loader = torch.utils.data.DataLoader(
         dataset,
         batch_size=batch_size,
     )
 
-    return batch_loader
+    return data_loader
 
 
 def evaluate(
@@ -98,7 +137,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--data-dir",
         type=str,
-        default=str(Path(__file__).parent / "safetyBatches" / "Batch_0"),
+        default=str(Path(__file__).parent / "safetyBatches" / "Batch_1"),
         help="Directory path where evaluation batch is located.",
     )
     parser.add_argument(
@@ -120,7 +159,9 @@ if __name__ == "__main__":
     predictions = evaluate(loaded_model, criterion, batch_loader)
 
     # Output incorrect classifications
-    ground_truth = batch_loader.dataset.targets
+    ground_truth = []
+    for _, target in batch_loader:
+        ground_truth.extend(target.tolist())
     sign_names = get_sign_names()
     wrong_predictions_idx = [
         idx
