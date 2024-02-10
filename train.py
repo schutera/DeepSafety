@@ -153,7 +153,7 @@ def train(
     mlflow.log_metric("training accuracy", training_accuracy, step=epoch)
 
 
-def validation(
+def validate(
     model: nn.Module,
     loss_function: nn.modules.loss,
     lr_scheduler: optim.lr_scheduler,
@@ -247,7 +247,7 @@ if __name__ == "__main__":
 
         for epoch in range(1, args.epochs + 1):
             train(model, criterion, optimizer, train_loader, epoch)
-            validation(model, criterion, scheduler, val_loader, epoch)
+            validate(model, criterion, scheduler, val_loader, epoch)
 
         # Infer the model signature
         X_train = next(iter(train_loader))[0]
