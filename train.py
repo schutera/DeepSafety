@@ -3,14 +3,10 @@
 The original project was part of the deep learning safety lecture at RWU
 by Mark Schutera (https://github.com/schutera/DeepSafety).
 
-The data to train and validate the model can be downloaded here:
-https://www.kaggle.com/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign/download
+The German Traffic Sign Recognition Benchmark (GTSRB) dataset is used to train 
+and validate the model (https://benchmark.ini.rub.de/).
 
-Make sure you run a local MLFlow tracking server before running the script.
-From a terminal, run:
-mlflow server --host 127.0.0.1 --port 8080
-
-Feel free to use a different tool to track you experiments if you want.
+Feel free to use a different tool to track your experiments if you want.
 """
 import argparse
 from pathlib import Path
