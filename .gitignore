@@ -168,3 +168,4 @@ cython_debug/
 /logs
 /mlartifacts
 /mlruns
+mlruns.db
