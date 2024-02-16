@@ -194,8 +194,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--epochs",
         type=int,
-        default=100,
-        help="Number of epochs to train (default: 100).",
+        default=50,
+        help="Number of epochs to train (default: 50).",
     )
     parser.add_argument(
         "--lr",
