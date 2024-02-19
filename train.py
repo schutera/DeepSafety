@@ -9,7 +9,6 @@ and validate the model (https://benchmark.ini.rub.de/).
 Feel free to use a different tool to track your experiments if you want.
 """
 import argparse
-from pathlib import Path
 from typing import Tuple
 
 import mlflow
@@ -204,12 +203,6 @@ if __name__ == "__main__":
         help="Learning rate (default: 0.0001).",
     )
     parser.add_argument("--seed", type=int, default=1, help="Random seed (default: 1).")
-    parser.add_argument(
-        "--model-dir",
-        type=str,
-        default=str(Path(__file__).parent / "saved_models"),
-        help="Directory path where the trained model should be saved.",
-    )
 
     args = parser.parse_args()
 
