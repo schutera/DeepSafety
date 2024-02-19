@@ -1,3 +1,4 @@
+ipykernel==6.29.2
 mlflow==2.9.2
 numpy==1.26.3
 torch==2.1.2
