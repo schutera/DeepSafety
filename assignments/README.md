@@ -1,6 +1,14 @@
 # Assignments & Final Project
 This directory contains the assignments and the description for the final project.
 
+A word on **scope and difficulty**: some basic programming skills are expected as a prerequisite for this course but we do not assume that you are already familiar with all these technologies and tools. Nonetheless, we will not teach those technologies but expect that you can learn enough by yourself by reading documentation or tutorials as needed to perform small changes. Professional developers and data scientists will constantly have to learn new technologies on their own. Incrementally modifying and maintaining existing systems is far more common than developing new things from scratch. Learning new technologies, libraries and tools and troubleshooting problems with documentation, debugging, and sites like Stackoverflow are important skills.
+
+## Grading
+Evaluation will be based on the following distribution:
+
+* 20 % weekly assignments
+* 80 % final project (code, validation batch and report, see [project description](project.md) for details)
+
 ## FAQ
 
 1. I am not familiar with Python/PyTorch/MLFlow/...
@@ -13,6 +21,8 @@ This directory contains the assignments and the description for the final projec
         - Deep Learning - Ian Goodfellow and Yoshua Bengio and Aaron Courville: http://www.deeplearningbook.org/
         - Pattern Recognition and Machine Learning - Bishop
         - Staford CS231n - Convolutional Neural Networks for Visual Recognition: http://cs231n.stanford.edu/
+    * PyTorch: https://pytorch.org/tutorials/beginner/basics/intro.html
+    * MLFlow: https://mlflow.org/docs/latest/getting-started/index.html
 
 2. How should I start?
 

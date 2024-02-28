@@ -1,25 +1,27 @@
 # Deep Safety
 This is a repository to study safety concepts for deep learning in safety-critical applications. The repository is part of the lecture at DHBW Ravensburg. 
 
-This course includes a project whose goal is to validate a machine learning based system for traffic sign classification that is assumed to be part of a self-driving vehicle. During the course, you will you work on several assignments that cover specific aspects of safety for deep learning and prepare you for the project.
+This course includes a project whose goal is to validate a machine learning based system for traffic sign classification that is assumed to be part of a self-driving vehicle. During the course, you will you work on several assignments that cover specific aspects of safety for deep learning and prepare you for the final project.
 
 ## Quickstart
 1. Clone the repository:
     ```bash
-    git clone git@github.com:jspieler/DeepSafety.git
+    git clone git@github.com:schutera/DeepSafety.git
     ```
-2. Create a new virtual environment and install dependencies:
-    ```bash
-    # Conda (recommended)
-    conda env create --file environment.yaml
+2. Create a new virtual environment and install dependencies.
 
-    # or using venv
+    Either using Conda (recommended):
+    ```bash
+    conda env create --file environment.yaml
+    ```
+    or using venv:
+    ```bash
     python -m venv deepsafety_env
     source deepsafety_env/bin/activate
     pip install -r requirements.txt
     ```
-    Please refer to the [PyTorch Get Started guide](https://pytorch.org/get-started/locally/) for installation if you want to use a GPU.
-3. Activate your virtual environment, e.g. Conda:
+    Please refer to the [PyTorch Get Started guide](https://pytorch.org/get-started/locally/) for installation details if you want to use a GPU.
+3. Activate your virtual environment, e.g., Conda:
     ```bash
     conda activate deepsafety_env
     ```
