@@ -273,6 +273,7 @@ if __name__ == "__main__":
             validate(model, criterion, scheduler, val_loader, epoch)
 
         # Infer the model signature for logging
+        model.to("cpu")
         X_train = next(iter(train_loader))[0]
         signature = mlflow.models.infer_signature(
             X_train.numpy(), model(X_train).detach().numpy()
