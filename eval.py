@@ -17,12 +17,19 @@ from torchvision.transforms import v2
 
 ROOT_DIR = Path(__file__).parent
 
-# Set the tracking server to be localhost with sqlite as tracking store
+# Set the MLFlow tracking server to be localhost with sqlite as tracking store
 mlflow.set_tracking_uri(uri="sqlite:///mlruns.db")
 
 
 class SafetyBatchDataset(torchvision.datasets.ImageFolder):
-    """Custom dataset for safety batch."""
+    """Custom dataset for safety batch.
+
+    This has been implemented because the batches used for evaluation are just
+    folders with images (instead of a torchvision dataset like the training data).
+    However, the __getitem__ method was slightly adapted since the default behavior,
+    i.e. the assumed folder structure doesn't match ours. Thus, the internal labels
+    don't match the true class labels.
+    """
 
     def __init__(
         self,
@@ -48,7 +55,7 @@ class SafetyBatchDataset(torchvision.datasets.ImageFolder):
         if self.target_transform is not None:
             target = self.target_transform(target)
 
-        # convert target index to class label
+        # Convert target index to class label
         target_label = int(
             [label for label, idx in self.class_to_idx.items() if idx == target][0]
         )
@@ -104,20 +111,25 @@ def evaluate(
     loss_function: nn.modules.loss,
     batch_loader: torch.utils.data.DataLoader,
 ) -> List[int]:
-    """Evaluates the model on the validation batch.
+    """Evaluates the model on the given evaluation batch.
 
     You may want to extend this to report more metrics. However, it is not about
     how many metrics you crank out, it is about whether you find the meaningful
     ones and report. Think thoroughly about which metrics to go for.
     """
+    # Set the model to evaluation mode, disabling dropout and using population
+    # statistics for batch normalization
     model.eval()
     batch_loss = 0
     correct = 0
     predictions = []
     for data, target in batch_loader:
+        # We don't need to calculate the gradients for our output since
+        # we are not training here, so we can reduce memory consumption
         with torch.no_grad():
             output = model(data)
             batch_loss += loss_function(output, target).item()
+            # The class with the highest value is what we chose as prediction
             _, predicted = torch.max(output.data, 1)
             correct += (predicted == target).sum().item()
             predictions.extend(predicted.tolist())
@@ -132,7 +144,7 @@ def evaluate(
 
 
 if __name__ == "__main__":
-    # you may want to use different parameters than the default ones
+    # You may want to use different parameters than the default ones
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--data-dir",

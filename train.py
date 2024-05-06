@@ -6,7 +6,8 @@ by Mark Schutera (https://github.com/schutera/DeepSafety).
 The German Traffic Sign Recognition Benchmark (GTSRB) dataset is used to train 
 and validate the model (https://benchmark.ini.rub.de/).
 
-Feel free to use a different tool to track your experiments if you want.
+MLFlow (https://mlflow.org/docs/latest/index.html) is used for experiment
+tracking. Feel free to use a different tool to track your experiments if you want.
 """
 import argparse
 from typing import Tuple
@@ -20,7 +21,7 @@ import torchvision
 from torchvision.transforms import v2
 from tqdm import tqdm
 
-# Set the tracking server to be localhost with sqlite as tracking store
+# Set the MLFlow tracking server to be localhost with sqlite as tracking store
 mlflow.set_tracking_uri(uri="sqlite:///mlruns.db")
 
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -76,7 +77,10 @@ def load_and_transform_data(
     """Loads data from directory, resizes and rescales images to floats
     between 0 and 1.
 
-    You may want to extend this.
+    The German Traffic Sign Recognition Benchmark (GTSRB) dataset is loaded
+    from torchvision and splitted into a training and validation set.
+
+    You may want to extend this function.
     """
     data_transforms = v2.Compose(
         [
@@ -120,7 +124,7 @@ def train(
     train_loader: torch.utils.data.DataLoader,
     epoch: int,
 ) -> None:
-    """Train model for one epoch."""
+    """Trains a model for one epoch."""
     model.train()
     correct = 0
     training_loss = 0
@@ -131,12 +135,20 @@ def train(
         0,
     ):
         progress_bar.set_description(f"Epoch {epoch}")
+        # Pass inputs and labels to device (CPU/GPU)
         data, target = data.to(DEVICE), target.to(DEVICE)
+        # Zero gradients for each batch
         optimizer.zero_grad()
+        # Output predictions for each batch
         output = model(data)
+        # Compute loss and gradients
         loss = loss_function(output, target)
         loss.backward()
+        # Adjust weights
         optimizer.step()
+
+        # Get data and report them
+        # The class with the highest value is what we chose as prediction
         _, predicted = torch.max(output.data, 1)
         correct += (predicted == target).sum().item()
         training_loss += loss.item()
@@ -148,6 +160,7 @@ def train(
     training_loss /= len(train_loader.dataset)
     training_accuracy = correct / len(train_loader.dataset)
 
+    # Log the loss and accuracy for each training epoch
     mlflow.log_metric("training loss", training_loss, step=epoch)
     mlflow.log_metric("training accuracy", training_accuracy, step=epoch)
 
@@ -160,29 +173,37 @@ def validate(
     epoch: int,
 ) -> None:
     """Evaluates the model on the validation dataset."""
+    # Set the model to evaluation mode, disabling dropout and using population
+    # statistics for batch normalization
     model.eval()
     validation_loss = 0
     correct = 0
     for data, target in val_loader:
         data, target = data.to(DEVICE), target.to(DEVICE)
+        # We don't need to calculate the gradients for our output since
+        # we are not training here, so we can reduce memory consumption
         with torch.no_grad():
             output = model(data)
             validation_loss += loss_function(output, target).item()
+            # The class with the highest value is what we chose as prediction
             _, predicted = torch.max(output.data, 1)
             correct += (predicted == target).sum().item()
 
     validation_loss /= len(val_loader.dataset)
+    # Adjust learning rate based on validation loss
     lr_scheduler.step(round(validation_loss, 2))
+    # Gather data and report them
     val_accuracy = correct / len(val_loader.dataset)
     print(
         f"Validation set: Average loss: {validation_loss:.4f}, Accuracy: {100.0 * val_accuracy:.1f} %"
     )
+    # Log the loss and accuracy for each validation epoch
     mlflow.log_metric("validation loss", validation_loss, step=epoch)
     mlflow.log_metric("validation accuracy", val_accuracy, step=epoch)
 
 
 if __name__ == "__main__":
-    # you may want to use different parameters than the default ones
+    # You may want to use different parameters than the default ones
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--batch-size",
@@ -208,23 +229,32 @@ if __name__ == "__main__":
 
     torch.manual_seed(args.seed)
 
-    NUM_CLASSES = 43  # GTSRB as 43 classes
+    # GTSRB as 43 classes, this parameter is just used for the number of outputs neurons
+    # of our neural network
+    NUM_CLASSES = 43
 
-    # you may want to experiment with different models, loss function or other parameters
+    # You may want to experiment with different models, loss function or other parameters
     model = Net(num_classes=NUM_CLASSES)
     model.to(DEVICE)
+
+    # The CrossEntropyLoss is equivalent to applying LogSoftmax and NLLLoss, thus
+    # our neural network doesn't contain a softmax layer
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(
         filter(lambda p: p.requires_grad, model.parameters()), lr=args.lr
     )
+    # Scheduling to dynamically reduce learning rate based on validation measurements
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, "min", patience=5, factor=0.5, verbose=True
     )
 
     train_loader, val_loader = load_and_transform_data(batch_size=args.batch_size)
 
+    # define an experiment that will group each (training) run together
     mlflow.set_experiment("Deep Safety")
 
+    # Initiate a run context to record our model, the hyperparameter, as well as
+    # metrics and so on
     with mlflow.start_run():
         # Log the hyperparameters, add more if needed
         mlflow.log_params(
@@ -242,8 +272,7 @@ if __name__ == "__main__":
             train(model, criterion, optimizer, train_loader, epoch)
             validate(model, criterion, scheduler, val_loader, epoch)
 
-        # Infer the model signature
-        model.to("cpu")
+        # Infer the model signature for logging
         X_train = next(iter(train_loader))[0]
         signature = mlflow.models.infer_signature(
             X_train.numpy(), model(X_train).detach().numpy()

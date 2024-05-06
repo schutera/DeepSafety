@@ -21,7 +21,9 @@ Evaluation will be based on the following distribution:
         - Deep Learning - Ian Goodfellow and Yoshua Bengio and Aaron Courville: http://www.deeplearningbook.org/
         - Pattern Recognition and Machine Learning - Bishop
         - Staford CS231n - Convolutional Neural Networks for Visual Recognition: http://cs231n.stanford.edu/
-    * PyTorch: https://pytorch.org/tutorials/beginner/basics/intro.html
+    * PyTorch: 
+        - https://pytorch.org/tutorials/beginner/basics/intro.html
+        - https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html
     * MLFlow: https://mlflow.org/docs/latest/getting-started/index.html
 
 2. How should I start?
